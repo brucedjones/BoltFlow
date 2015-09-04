@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5AD8AD2E-1585-4989-8ABA-13F369D8D816}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.cpp" />
+    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.cpp" />
+    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.cpp" />
+    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.cpp" />
+    <ClCompile Include="boltflow\boundary_conditions\macro_bc.cpp" />
+    <ClCompile Include="boltflow\collision.cpp" />
+    <ClCompile Include="boltflow\index.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="boltflow\infile_reader.cpp" />
+    <ClCompile Include="boltflow\macros.cpp" />
+    <ClCompile Include="boltflow\model_builder.cpp" />
+    <ClCompile Include="boltflow\solver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.h" />
+    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.h" />
+    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.h" />
+    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.h" />
+    <ClInclude Include="boltflow\boundary_conditions\macro_bc.h" />
+    <ClInclude Include="boltflow\boundary_conditions\micro_bc.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgnslib.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgnslib_f.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgnstypes.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgnstypes_f.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgnswin_f.h" />
+    <ClInclude Include="boltflow\cgns\x64\include\cgns_io.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgnslib.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgnslib_f.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgnstypes.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgnstypes_f.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgnswin_f.h" />
+    <ClInclude Include="boltflow\cgns\x86\include\cgns_io.h" />
+    <ClInclude Include="boltflow\collision.h" />
+    <ClInclude Include="boltflow\data_types.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5AbstractDs.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Alltypes.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5ArrayType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5AtomType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Attribute.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Classes.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CommonFG.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CompType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Cpp.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CppDoc.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataSet.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataSpace.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DcreatProp.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DxferProp.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5EnumType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Exception.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FaccProp.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FcreatProp.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5File.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FloatType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Group.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5IdComponent.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Include.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5IntType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Library.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Object.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5PredType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5PropList.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5StrType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5VarLenType.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90i.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90i_gen.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90proto.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5api_adpt.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Apkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Aprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Apublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2pkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2private.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2public.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5CSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5diff.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5DSpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Edefin.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Einit.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Eprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epubgen.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Eterm.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDcore.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDdirect.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDfamily.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDlog.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpi.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpio.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpiposix.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmulti.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDsec2.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDstdio.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDwindows.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FOprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HPprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5IMpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ipkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Iprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ipublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5LTparse.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5LTpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MFprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MMprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MMpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MPpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MPprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Opkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Oprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Opublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Oshared.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5overflow.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ppkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Pprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ppublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5private.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5PTpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5pubconf.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5public.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5RCprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5RSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SMpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SMprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Spkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Sprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Spublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5STprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5TBpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_ref.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_str.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_utils.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\h5trav.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5TSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5version.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Vprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5WBprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5win32defs.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\hdf5.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\hdf5_hl.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\hl\cpp\H5PacketTable.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\SZconfig.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\szip_adpt.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\szlib.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\zconf.h" />
+    <ClInclude Include="boltflow\hdf5\x64\include\zlib.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5AbstractDs.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Alltypes.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5ArrayType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5AtomType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Attribute.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Classes.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CommonFG.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CompType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Cpp.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CppDoc.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataSet.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataSpace.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DcreatProp.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DxferProp.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5EnumType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Exception.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FaccProp.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FcreatProp.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5File.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FloatType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Group.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5IdComponent.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Include.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5IntType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Library.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Object.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5PredType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5PropList.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5StrType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5VarLenType.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90i.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90i_gen.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90proto.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5api_adpt.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Apkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Aprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Apublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2pkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2private.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2public.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5CSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5diff.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5DSpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Edefin.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Einit.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Eprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epubgen.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Eterm.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDcore.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDdirect.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDfamily.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDlog.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpi.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpio.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpiposix.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmulti.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDsec2.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDstdio.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDwindows.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FOprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HPprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5IMpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ipkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Iprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ipublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5LTparse.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5LTpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MFprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MMprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MMpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MPpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MPprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Opkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Oprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Opublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Oshared.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5overflow.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ppkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Pprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ppublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5private.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5PTpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5pubconf.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5public.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5RCprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5RSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SLprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SMpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SMprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Spkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Sprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Spublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5STprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5TBpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_ref.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_str.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_utils.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\h5trav.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5TSprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5version.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Vprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5WBprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5win32defs.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zpkg.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zprivate.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zpublic.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\hdf5.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\hdf5_hl.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\hl\cpp\H5PacketTable.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\SZconfig.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\szip_adpt.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\szlib.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\zconf.h" />
+    <ClInclude Include="boltflow\hdf5\x86\include\zlib.h" />
+    <ClInclude Include="boltflow\index.h" />
+    <ClInclude Include="boltflow\model_builder.h" />
+    <ClInclude Include="boltflow\solver.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

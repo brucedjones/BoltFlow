@@ -1,0 +1,1095 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="boltflow\collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\index.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\infile_reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\macros.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\model_builder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\solver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\boundary_conditions\macro_bc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boltflow\collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\data_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\index.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\model_builder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\solver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\macro_bc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\micro_bc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgnslib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgnslib_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgnstypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgnstypes_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgnswin_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x64\include\cgns_io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgnslib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgnslib_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgnstypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgnstypes_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgnswin_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\cgns\x86\include\cgns_io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5ACpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5api_adpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Apkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Aprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Apublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2pkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5B2public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Bpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Cpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5CSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5diff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Dpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5DSpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Edefin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Einit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Eprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epubgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Epublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Eterm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDcore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDdirect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDfamily.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDlog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmpiposix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDmulti.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDsec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDstdio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FDwindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FOprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Fpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5FSpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Gpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HFpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HGpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HLpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5HPprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5IMpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ipkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Iprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ipublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Lpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5LTparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5LTpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MFprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MMprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MMpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MPpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5MPprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Opkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Oprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Opublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Oshared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5overflow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ppkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Pprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Ppublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5PTpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5pubconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5RCprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Rpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5RSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SMpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5SMprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Spkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Sprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Spublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5STprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5TBpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_ref.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_str.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5tools_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Tpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\h5trav.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5TSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Vprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5WBprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5win32defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\H5Zpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\hdf5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\hdf5_hl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\SZconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\szip_adpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\szlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5AbstractDs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Alltypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5ArrayType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5AtomType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Attribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CommonFG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CompType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Cpp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5CppDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DataType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DcreatProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5DxferProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5EnumType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FaccProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FcreatProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5FloatType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Group.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5IdComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5IntType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5PredType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5PropList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5StrType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\cpp\H5VarLenType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90i.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90i_gen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\fortran\H5f90proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x64\include\hl\cpp\H5PacketTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5ACpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5api_adpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Apkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Aprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Apublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2pkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5B2public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Bpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Cpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5CSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5diff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Dpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5DSpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Edefin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Einit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Eprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epubgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Epublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Eterm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDcore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDdirect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDfamily.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDlog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmpiposix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDmulti.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDsec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDstdio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FDwindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FOprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Fpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5FSpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Gpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HFpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HGpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HLpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5HPprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5IMpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ipkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Iprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ipublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Lpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5LTparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5LTpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MFprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MMprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MMpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MPpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5MPprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Opkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Oprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Opublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Oshared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5overflow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ppkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Pprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Ppublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5PTpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5pubconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5RCprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Rpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5RSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SLprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SMpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5SMprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Spkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Sprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Spublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5STprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5TBpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_ref.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_str.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5tools_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Tpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\h5trav.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5TSprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Vprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5WBprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5win32defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zpkg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zprivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\H5Zpublic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\hdf5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\hdf5_hl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\SZconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\szip_adpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\szlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5AbstractDs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Alltypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5ArrayType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5AtomType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Attribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CommonFG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CompType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Cpp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5CppDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DataType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DcreatProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5DxferProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5EnumType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FaccProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FcreatProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5FloatType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Group.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5IdComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5IntType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5PredType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5PropList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5StrType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\cpp\H5VarLenType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90i.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90i_gen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\fortran\H5f90proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boltflow\hdf5\x86\include\hl\cpp\H5PacketTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
