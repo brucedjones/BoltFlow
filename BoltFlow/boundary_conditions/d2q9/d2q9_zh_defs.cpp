@@ -1,7 +1,9 @@
 #ifndef D2Q9_ZH_DEFS
 #define D2Q9_ZH_DEFS
 
-__device__ __noinline__ void zh_pressure_x(Node *current_node, Lattice *lattice)
+#include "../../data_types.h"
+
+void zh_pressure_x(Node *current_node, Lattice *lattice)
 {
 	// COMPUTE MACROS
 	current_node->u[0] = 1.0-((1.0/current_node->rho)*(current_node->f[0]+current_node->f[2]+current_node->f[4]+2.0*(current_node->f[3]+current_node->f[6]+current_node->f[7])));
@@ -14,7 +16,7 @@ __device__ __noinline__ void zh_pressure_x(Node *current_node, Lattice *lattice)
 
 }
 
-__device__ __noinline__ void zh_pressure_X(Node *current_node, Lattice *lattice)
+void zh_pressure_X(Node *current_node, Lattice *lattice)
 {
 	// COMPUTE MACROS
 	current_node->u[0] = -1.0+((1.0/current_node->rho)*(current_node->f[0]+current_node->f[2]+current_node->f[4]+2.0*(current_node->f[1]+current_node->f[5]+current_node->f[8])));

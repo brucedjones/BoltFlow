@@ -58,6 +58,7 @@
 #endif
 
 #include <stdio.h>
+#include <time.h>
 #include "data_types.h"
 #include "macros.cpp"
 #include "solver.cpp"
@@ -65,19 +66,11 @@
 #include "model_builder.cpp"
 #include "cgns/cgns_output_handler.cpp"
 
-
-
-// DEVICE VARIABLE DECLARATION
-Lattice *lattice_device;
-Domain *domain_device;
-DomainConstant *domain_constants_device;
-OutputController *output_controller_device;
-
 // HOST VARIABLE DECLARATION
-Lattice *lattice_host, *lattice_device_prototype;
-Domain *domain_host;
-DomainConstant *domain_constants_host;
-OutputController *output_controller_host;
+Lattice *lattice;
+Domain *domain;
+DomainConstant *domain_constants;
+OutputController *output_controller;
 Timing *times;
 ProjectStrings *project;
 ModelBuilder model_builder;
@@ -90,35 +83,19 @@ bool store_macros = false;
 CGNSOutputHandler output_handler;
 
 int main(int argc, char **argv)
-{
-
-	// Get available memory on graphics card before allocation
-	size_t freeMemory_before = 0;
-	size_t totalMemory_before = 0;
-	cppdaMemGetInfo(&freeMemory_before, &totalMemory_before);
-	
+{	
 	// Initialise memory for LBM model
 	setup(argv[1]);
-	
-	// Get available memory on graphics card after allocation
-	size_t freeMemory_after = 0;
-	size_t totalMemory_after = 0;
-	cppdaMemGetInfo(&freeMemory_after, &totalMemory_after);
-
-	// Report program memory usage
-	cout << "Total Device Memory:	 "<< totalMemory_after / 1024 / 1024 << "Mb" << endl;
-	cout << "Total Availabe Memory:	 "<< freeMemory_before / 1024 / 1024 << "Mb" << endl;
-	cout << "Memory Used:            "<< (freeMemory_before-freeMemory_after) / 1024 / 1024 << "Mb" << endl;
 
 	// Report domain configuration
-	printf("X-Length:		%d\n", domain_constants_host->length[0]);
-	printf("Y-Length:		%d\n", domain_constants_host->length[1]);
+	printf("X-Length:		%d\n", domain_constants->length[0]);
+	printf("Y-Length:		%d\n", domain_constants->length[1]);
 	#if DIM > 2
-		printf("Z-Length:		%d\n", domain_constants_host->length[2]);
+		printf("Z-Length:		%d\n", domain_constants->length[2]);
 	#endif
-	printf("Relaxation Time (Tau):	%f\n", domain_constants_host->tau);
+	printf("Relaxation Time (Tau):	%f\n", domain_constants->tau);
 	printf("\nPress return to continue...");
-	if (output_controller_host->interactive == true) getchar();
+	if (output_controller->interactive == true) getchar();
 
 	// Get cpprrent clock cycle number
 	clock_t t1=clock();
@@ -127,7 +104,7 @@ int main(int argc, char **argv)
 	int stop=0;
 	for(int d = 0; d<DIM ;d++)
 	{
-		domain_size = domain_size*domain_constants_host->length[d];
+		domain_size = domain_size*domain_constants->length[d];
 	}
 
 	for(int i = 1; i<times->max+1; i++)
@@ -146,7 +123,7 @@ int main(int argc, char **argv)
 
 		if(times->screen>0 && i%times->screen == 0)
 		{
-			screen_mess(i,output_controller_host->screen_node);
+			screen_mess(i,output_controller->screen_node);
 			store_macros = false;
 		}
 
@@ -156,9 +133,9 @@ int main(int argc, char **argv)
 			
 			for(int resid=0;resid<NUM_RESIDS;resid++)
 			{
-				if(domain_constants_host->residual[resid]<domain_constants_host->tolerance) stop += 1;
+				if(domain_constants->residual[resid]<domain_constants->tolerance) stop += 1;
 			}
-			if(isIndeterminate(domain_constants_host->residual[i%NUM_RESIDS]))
+			if(isIndeterminate(domain_constants->residual[i%NUM_RESIDS]))
 			{
 				output_macros(i);
 				exit(1);
@@ -178,7 +155,7 @@ int main(int argc, char **argv)
 	double cputime = ((double)t2-(double)t1)/(double)CLOCKS_PER_SEC;
 	printf("\n\nTotal Run Time: %fs",cputime);
 	printf("\nPress return to finish");
-	if (output_controller_host->interactive == true) getchar();
+	if (output_controller->interactive == true) getchar();
 
 
 }
@@ -187,32 +164,22 @@ int main(int argc, char **argv)
 // EXEcppTES ALL ROUTINES REQUIRED FOR THE MODEL SET UP
 void setup(char *data_file)
 {
-	// Set cppda device to use
-	cppdaSetDevice(0);
-	cppdaFuncSetCacheConfig(iterate_kernel, cppdaFuncCachePreferL1);
-	
 	// Allocate container structures
-	combi_malloc<Lattice>(&lattice_host, &lattice_device, sizeof(Lattice));
-	combi_malloc<Domain>(&domain_host, &domain_device, sizeof(Domain));
-	combi_malloc<DomainConstant>(&domain_constants_host, &domain_constants_device, sizeof(DomainConstant));
-	combi_malloc<OutputController>(&output_controller_host, &output_controller_device, sizeof(OutputController));
-	domain_constants_host = (DomainConstant *)malloc(sizeof(DomainConstant));
+	lattice = (Lattice*)malloc(sizeof(Lattice));
+	domain = (Domain*)malloc(sizeof(Domain));
+	domain_constants = (DomainConstant*)malloc(sizeof(DomainConstant));
+	output_controller = (OutputController*)malloc(sizeof(OutputController));
 	times = (Timing *)malloc(sizeof(Timing));
 	project = (ProjectStrings *)malloc(sizeof(ProjectStrings));
-	lattice_device_prototype = (Lattice *)malloc(sizeof(Lattice));
 
-	ModelBuilder tmpmb(data_file, lattice_host, lattice_device,
-		domain_constants_host, domain_constants_device,
-		domain_host, domain_device,
-		output_controller_host, output_controller_device,
-		times, project);
+	ModelBuilder tmpmb(data_file, lattice, domain_constants, domain, output_controller, times, project);
 	model_builder = tmpmb;
 
 	int z_len = 1;
 	#if DIM > 2
-		z_len = domain_constants_host->length[2];
+		z_len = domain_constants->length[2];
 	#endif
-	CGNSOutputHandler tmp(project->output_fname,domain_constants_host->length[0],domain_constants_host->length[1],z_len);
+	CGNSOutputHandler tmp(project->output_fname,domain_constants->length[0],domain_constants->length[1],z_len);
 	output_handler = tmp;
 }
 
@@ -226,38 +193,18 @@ void setup(char *data_file)
 //			more memory
 void output_macros(int time)
 {
-	int domain_size = domain_constants_host->length[0]*domain_constants_host->length[1];
+	int domain_size = domain_constants->length[0]*domain_constants->length[1];
 	#if DIM > 2
-		domain_size = domain_size*domain_constants_host->length[2];
+		domain_size = domain_size*domain_constants->length[2];
 	#endif
 
-	Domain domain_tmp;
-
-	cppdasafe(cppdaMemcpy(&domain_tmp, domain_device, sizeof(Domain),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-	
-	double *u_tmp[DIM];
-	cppdasafe(cppdaMemcpy(u_tmp, domain_tmp.u, sizeof(double*)*DIM,cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	for(int d=0;d<DIM;d++)
-	{
-		cppdasafe(cppdaMemcpy(domain_host->u[d], u_tmp[d], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-	}
-
-	double *rho_tmp;
-	cppdasafe(cppdaMemcpy(domain_host->rho, domain_tmp.rho, sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	// Copy data from device to host
-	//cppdasafe(cppdaMemcpy(lattice_host->rho, lattice_device->rho, sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - rho");
-	//cppdasafe(cppdaMemcpy(lattice_host->u[0], lattice_device->u[0], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - ux");
-	//cppdasafe(cppdaMemcpy(lattice_host->u[1], lattice_device->u[1], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - uy");
-
 	int num_fields = 0;
-	if (output_controller_host->u[0] == true) num_fields++;
-	if (output_controller_host->u[1] == true) num_fields++;
+	if (output_controller->u[0] == true) num_fields++;
+	if (output_controller->u[1] == true) num_fields++;
 #if DIM > 2
-	if (output_controller_host->u[2] == true) num_fields++;
+	if (output_controller->u[2] == true) num_fields++;
 #endif
-	if (output_controller_host->rho == true) num_fields++;
+	if (output_controller->rho == true) num_fields++;
 
 	char **labels;
 	double **data;
@@ -272,41 +219,33 @@ void output_macros(int time)
 
 	int counter = 0;
 
-	if (output_controller_host->u[0] == true)
+	if (output_controller->u[0] == true)
 	{
-		data[counter] = domain_host->u[0];
+		data[counter] = domain->u[0];
 		strcpy(labels[counter],"VelocityX");
 		counter++;
 	}
 
-	if (output_controller_host->u[1] == true)
+	if (output_controller->u[1] == true)
 	{
-		data[counter] = domain_host->u[1];
+		data[counter] = domain->u[1];
 		strcpy(labels[counter],"VelocityY");
 		counter++;
 	}
 #if DIM > 2
-	if (output_controller_host->u[2] == true)
+	if (output_controller->u[2] == true)
 	{
-		data[counter] = domain_host->u[2];
+		data[counter] = domain->u[2];
 		strcpy(labels[counter],"VelocityZ");
 		counter++;
 	}
 #endif	
-	if (output_controller_host->rho == true)
+	if (output_controller->rho == true)
 	{
-		data[counter] = domain_host->rho;
+		data[counter] = domain->rho;
 		strcpy(labels[counter],"Density");
 		counter++;
 	}
-
-/*	data[0] = lattice_host->rho;
-	data[1] = lattice_host->u[0];
-	data[2] = lattice_host->u[1];
-
-	strcpy(labels[0],"Density");
-	strcpy(labels[1],"VelocityX");
-	strcpy(labels[2],"VelocityY");*/
 
 	output_handler.append_solution_output(time,num_fields,data,labels);
 }
@@ -317,8 +256,8 @@ void iterate(int t)
 	// GRID AND BLOCK DEFINITIONS CAN BE CALcppLATED BEFORE ITERATE
 	// DEFINE GRID AND BLOCK DIMS
 	int3 threads;
-	threads.x = (int)ceilf((float)domain_constants_host->length[0]/(float)NUM_THREADS_DIM_X);
-	threads.y = (int)ceilf((float)domain_constants_host->length[1]/(float)NUM_THREADS_DIM_Y);
+	threads.x = (int)ceilf((float)domain_constants->length[0]/(float)NUM_THREADS_DIM_X);
+	threads.y = (int)ceilf((float)domain_constants->length[1]/(float)NUM_THREADS_DIM_Y);
 	threads.z = 1;
 
 	int3 blocks;
@@ -327,7 +266,7 @@ void iterate(int t)
 	blocks.z = 1;
 
 	#if DIM >2
-		threads.z = (int)ceilf((float)domain_constants_host->length[2]/(float)NUM_THREADS_DIM_Z);;
+		threads.z = (int)ceilf((float)domain_constants->length[2]/(float)NUM_THREADS_DIM_Z);;
 		blocks.z = NUM_THREADS_DIM_Z;
 	#endif
 
@@ -366,7 +305,7 @@ void iterate(int t)
 #endif
 
 
-double cpprrent_RMS(double *device_var_u[DIM], double *device_var_rho, int var_size)
+double current_RMS(double *device_var_u[DIM], double *device_var_rho, int var_size)
 {
 	double *result;
 	cppdasafe(cppdaMalloc((void **)&result,sizeof(double)*var_size), "Model Builder: Device memory allocation failed!");
@@ -417,9 +356,9 @@ double error_RMS(double *device_var_u[DIM], double *device_var_rho, int var_size
 
 void compute_residual(int time)
 {
-	int domain_size = domain_constants_host->length[0]*domain_constants_host->length[1];
+	int domain_size = domain_constants->length[0]*domain_constants->length[1];
 	#if DIM > 2
-		domain_size = domain_size*domain_constants_host->length[2];
+		domain_size = domain_size*domain_constants->length[2];
 	#endif
 
 	Domain domain_tmp;
@@ -432,41 +371,26 @@ void compute_residual(int time)
 	//double *rho_tmp;
 	//cppdasafe(cppdaMemcpy(rho_tmp, domain_tmp.rho, sizeof(double*),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
 
-	/*cppdasafe(cppdaMemcpy(domain_host->u[0], u_tmp[0], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
-	cppdasafe(cppdaMemcpy(domain_host->u[1], u_tmp[1], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
-	cppdasafe(cppdaMemcpy(domain_host->u[2], u_tmp[2], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");*/
+	/*cppdasafe(cppdaMemcpy(domain->u[0], u_tmp[0], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
+	cppdasafe(cppdaMemcpy(domain->u[1], u_tmp[1], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
+	cppdasafe(cppdaMemcpy(domain->u[2], u_tmp[2], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");*/
 
-//	domain_constants_host->residual = error_RMS(u_tmp[0],u_tmp[1],u_tmp[2], rho_tmp,domain_size);
-	domain_constants_host->residual[time%NUM_RESIDS] = error_RMS(u_tmp, domain_tmp.rho,domain_size);
+//	domain_constants->residual = error_RMS(u_tmp[0],u_tmp[1],u_tmp[2], rho_tmp,domain_size);
+	domain_constants->residual[time%NUM_RESIDS] = error_RMS(u_tmp, domain_tmp.rho,domain_size);
 }
 
 void screen_mess(int iter, int coord[DIM])
 {
-	int idx = coord[0]+coord[1]*domain_constants_host->length[0];
+	int idx = coord[0]+coord[1]*domain_constants->length[0];
 	#if DIM > 2
-		idx += coord[2]*domain_constants_host->length[0]*domain_constants_host->length[1];
+		idx += coord[2]*domain_constants->length[0]*domain_constants->length[1];
 	#endif
 
-	double u[DIM],rho;
-	Domain domain_tmp;
-
-	cppdasafe(cppdaMemcpy(&domain_tmp, domain_device, sizeof(Domain),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-	
-	double *u_tmp[DIM];
-	cppdasafe(cppdaMemcpy(u_tmp, domain_tmp.u, sizeof(double*)*DIM,cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	for(int d=0;d<DIM;d++)
-	{
-		cppdasafe(cppdaMemcpy(&u[d], &u_tmp[d][idx], sizeof(double),cppdaMemcpyDeviceToHost),"Model Builder: BLAHBLAHCopy from device memory failed!");
-	}
-
-	cppdasafe(cppdaMemcpy(&rho, &domain_tmp.rho[idx], sizeof(double),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	cout << "time = " << iter << "; rho = " << rho << "; uX = " << u[0]<< "; uY = " << u[1] << "; ";
+	cout << "time = " << iter << "; rho = " << domain->rho[idx] << "; uX = " << domain->u[0][idx] << "; uY = " << domain->u[1][idx] << "; ";
 	#if DIM>2
-		cout << "uZ = " << u[2] << "; ";
+		cout << "uZ = " << domain->u[2][idx] << "; ";
 	#endif
-	cout << "resid = " << domain_constants_host->residual[iter%NUM_RESIDS] << endl;
+	cout << "resid = " << domain_constants->residual[iter%NUM_RESIDS] << endl;
 }
 
 bool isIndeterminate(const double pV)

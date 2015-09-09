@@ -1,7 +1,9 @@
 #ifndef D2Q9_SF_DEFS
 #define D2Q9_SF_DEFS
 
-__device__ __noinline__ void sf_x(Node *current_node, Lattice *lattice)
+#include "../../data_types.h"
+
+void sf_x(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = (current_node->coord[0]+1)+current_node->coord[1]*domain_constants.length[0];
@@ -12,7 +14,7 @@ __device__ __noinline__ void sf_x(Node *current_node, Lattice *lattice)
 	current_node->f[8] = lattice->f[8][target_ixd];
 }
 
-__device__ __noinline__ void sf_X(Node *current_node, Lattice *lattice)
+void sf_X(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = (current_node->coord[0]-1)+current_node->coord[1]*domain_constants.length[0];
@@ -23,7 +25,7 @@ __device__ __noinline__ void sf_X(Node *current_node, Lattice *lattice)
 	current_node->f[7] = lattice->f[7][target_ixd];
 }
 
-__device__ __noinline__ void sf_y(Node *current_node, Lattice *lattice)
+void sf_y(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+(current_node->coord[1]+1)*domain_constants.length[0];
@@ -34,7 +36,7 @@ __device__ __noinline__ void sf_y(Node *current_node, Lattice *lattice)
 	current_node->f[6] = lattice->f[6][target_ixd];
 }
 
-__device__ __noinline__ void sf_Y(Node *current_node, Lattice *lattice)
+void sf_Y(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+(current_node->coord[1]-1)*domain_constants.length[0];

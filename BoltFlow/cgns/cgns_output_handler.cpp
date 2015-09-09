@@ -207,7 +207,7 @@ class CGNSOutputHandler
 	void soltime_to_array()
 	{
 		soltime_a = (int *)malloc(sizeof(int)*soltime.size());
-		for(int i = 0; i<soltime.size(); i++)
+		for(uInt i = 0; i<soltime.size(); i++)
 		{
 			soltime_a[i] = soltime.at(i);
 		}
@@ -219,7 +219,7 @@ class CGNSOutputHandler
 		string name_tmp_s;
 
 		solname_a = (char *)malloc(soltime.size()*sizeof(char*)*(STR_LENGTH+1));
-		for(int i = 0; i<soltime.size();i++)
+		for(uInt i = 0; i<soltime.size();i++)
 		{
 			//solname_a[i] = (char *)malloc(STR_LENGTH*sizeof(char));
 			

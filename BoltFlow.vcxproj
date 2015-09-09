@@ -71,9 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.cpp" />
     <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.cpp" />
-    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.cpp" />
     <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.cpp" />
     <ClCompile Include="boltflow\boundary_conditions\macro_bc.cpp" />
     <ClCompile Include="boltflow\collision.cpp" />
@@ -86,9 +84,7 @@
     <ClCompile Include="boltflow\solver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.h" />
     <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.h" />
-    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.h" />
     <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.h" />
     <ClInclude Include="boltflow\boundary_conditions\macro_bc.h" />
     <ClInclude Include="boltflow\boundary_conditions\micro_bc.h" />

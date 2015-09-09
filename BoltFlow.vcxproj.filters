@@ -36,13 +36,7 @@
     <ClCompile Include="boltflow\boundary_conditions\macro_bc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.cpp">
@@ -71,13 +65,7 @@
     <ClInclude Include="boltflow\boundary_conditions\micro_bc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_sf_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_sf_defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.h">

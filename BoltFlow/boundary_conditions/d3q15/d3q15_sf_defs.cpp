@@ -1,8 +1,10 @@
 #ifndef D3Q15_SF_DEFS
 #define D3Q15_SF_DEFS
 
+#include "../../data_types.h"
 
-__device__ __noinline__ void sf_x(Node *current_node, Lattice *lattice)
+
+void sf_x(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = (current_node->coord[0]+1)+current_node->coord[1]*domain_constants.length[0]+current_node->coord[2]*domain_constants.length[0]*domain_constants.length[1];
@@ -15,7 +17,7 @@ __device__ __noinline__ void sf_x(Node *current_node, Lattice *lattice)
 	current_node->f[13] = lattice->f[13][target_ixd];
 }
 
-__device__ __noinline__ void sf_X(Node *current_node, Lattice *lattice)
+void sf_X(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = (current_node->coord[0]-1)+current_node->coord[1]*domain_constants.length[0]+current_node->coord[2]*domain_constants.length[0]*domain_constants.length[1];
@@ -28,7 +30,7 @@ __device__ __noinline__ void sf_X(Node *current_node, Lattice *lattice)
 	current_node->f[14] = lattice->f[14][target_ixd];
 }
 
-__device__ __noinline__ void sf_y(Node *current_node, Lattice *lattice)
+void sf_y(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+(current_node->coord[1]+1)*domain_constants.length[0]+current_node->coord[2]*domain_constants.length[0]*domain_constants.length[1];
@@ -41,7 +43,7 @@ __device__ __noinline__ void sf_y(Node *current_node, Lattice *lattice)
 	current_node->f[14] = lattice->f[14][target_ixd];
 }
 
-__device__ __noinline__ void sf_Y(Node *current_node, Lattice *lattice)
+void sf_Y(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+(current_node->coord[1]-1)*domain_constants.length[0]+current_node->coord[2]*domain_constants.length[0]*domain_constants.length[1];
@@ -54,7 +56,7 @@ __device__ __noinline__ void sf_Y(Node *current_node, Lattice *lattice)
 	current_node->f[13] = lattice->f[13][target_ixd];
 }
 
-__device__ __noinline__ void sf_z(Node *current_node, Lattice *lattice)
+void sf_z(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+current_node->coord[1]*domain_constants.length[0]+(current_node->coord[2]+1)*domain_constants.length[0]*domain_constants.length[1];
@@ -67,7 +69,7 @@ __device__ __noinline__ void sf_z(Node *current_node, Lattice *lattice)
 	current_node->f[14] = lattice->f[14][target_ixd];
 }
 
-__device__ __noinline__ void sf_Z(Node *current_node, Lattice *lattice)
+void sf_Z(Node *current_node, Lattice *lattice)
 {
 	// Find target index
 	int target_ixd = current_node->coord[0]+current_node->coord[1]*domain_constants.length[0]+(current_node->coord[2]-1)*domain_constants.length[0]*domain_constants.length[1];
