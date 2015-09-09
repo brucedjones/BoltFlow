@@ -6,6 +6,9 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "x64\include\cgnslib.h"
+#include "../macros.cpp"
+
 using namespace std;
 /* cgnslib.h file must be located in directory specified by -I during compile: */
 

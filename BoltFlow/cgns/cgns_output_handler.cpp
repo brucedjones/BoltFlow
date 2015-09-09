@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "x64\include\cgnslib.h"
+#include "../macros.cpp"
 using namespace std;
 /* cgnslib.h file must be located in directory specified by -I during compile: */
 
@@ -207,7 +209,7 @@ class CGNSOutputHandler
 	void soltime_to_array()
 	{
 		soltime_a = (int *)malloc(sizeof(int)*soltime.size());
-		for(uInt i = 0; i<soltime.size(); i++)
+		for(int i = 0; i<soltime.size(); i++)
 		{
 			soltime_a[i] = soltime.at(i);
 		}
@@ -219,7 +221,7 @@ class CGNSOutputHandler
 		string name_tmp_s;
 
 		solname_a = (char *)malloc(soltime.size()*sizeof(char*)*(STR_LENGTH+1));
-		for(uInt i = 0; i<soltime.size();i++)
+		for(int i = 0; i<soltime.size();i++)
 		{
 			//solname_a[i] = (char *)malloc(STR_LENGTH*sizeof(char));
 			

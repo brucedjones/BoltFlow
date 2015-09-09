@@ -15,31 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="boltflow\collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="boltflow\index.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\infile_reader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\macros.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\model_builder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\solver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\boundary_conditions\macro_bc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\boundary_conditions\d2q9\d2q9_zh_defs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boltflow\boundary_conditions\d3q15\d3q15_zh_defs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1079,5 +1055,19 @@
     <ClInclude Include="boltflow\hdf5\x86\include\hl\cpp\H5PacketTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="BoltFlow\cgns\x64\lib\cgns.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="BoltFlow\HDF5\x64\lib\hdf5.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="BoltFlow\HDF5\x64\lib\libszip.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="BoltFlow\HDF5\x64\lib\libzlib.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@
 #include "boundary_conditions/macro_bc.cpp"
 #include "boundary_conditions/micro_bc.h"
 
-
 void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_constants, bool store_macros, int t, int x, int y, int z)
 {
 	// Declare Variables
@@ -47,9 +46,9 @@ void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_co
 		// Smagorinsky constant:
 		current_node.c_smag = domain_constants->c_smag;
 		// Boundary condition:
-		int macro_bc = 0;
+		macro_bc = 0;
 		if(domain_constants->macro_bc==true)	macro_bc = domain->macro_bc[ixd];
-		int micro_bc = 0;
+		micro_bc = 0;
 		if(domain_constants->micro_bc==true)	micro_bc = domain->micro_bc[ixd];
 
 		// Collision type:

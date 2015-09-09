@@ -38,13 +38,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef _WIN64
-	#pragma comment(lib, "cgns/x64/lib/cgns.lib")
+	//#pragma comment(lib, "cgns/x64/lib/cgns.lib")
 	#include "cgns\x64\include\cgnslib.h"
-	#pragma comment(lib, "HDF5/x64/lib/hdf5.lib")
+	//#pragma comment(lib, "HDF5/x64/lib/hdf5.lib")
 	#include "HDF5/x64/include/hdf5.h"
-	#pragma comment(lib, "HDF5/x64/lib/libszip.lib")
+	//#pragma comment(lib, "HDF5/x64/lib/libszip.lib")
 	#include "HDF5/x64/include/szlib.h"
-	#pragma comment(lib, "HDF5/x64/lib/libzlib.lib")
+	//#pragma comment(lib, "HDF5/x64/lib/libzlib.lib")
 	#include "HDF5/x64/include/zlib.h"
 #else
 	#pragma comment(lib, "cgns/x86/lib/cgns.lib")
@@ -156,8 +156,6 @@ int main(int argc, char **argv)
 	printf("\n\nTotal Run Time: %fs",cputime);
 	printf("\nPress return to finish");
 	if (output_controller->interactive == true) getchar();
-
-
 }
 
 

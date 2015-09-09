@@ -14,8 +14,8 @@
 #define INVERSEPOW(x) {1./x}
 
 collision collision_functions[9] = { bgk_collision, bgk_guo_collision, bgk_ntpor_collision, bgk_ntpor_guo_collision,
-												mrt_collision, mrt_guo_collision, mrt_ntpor_collision, mrt_ntpor_guo_collision,
-												bounceback};
+mrt_collision, mrt_guo_collision, mrt_ntpor_collision, mrt_ntpor_guo_collision,
+bounceback };
 
 inline double u_square(Node *current_node)
 {
