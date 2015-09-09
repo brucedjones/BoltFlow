@@ -149,7 +149,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	// Get cpprrent clock cycle number
+	// Get current clock cycle number
 	clock_t t2=clock();
 	// Compare and report global execpption time
 	double cputime = ((double)t2-(double)t1)/(double)CLOCKS_PER_SEC;
@@ -253,130 +253,58 @@ void output_macros(int time)
 // CONFIGURES THE KERNEL CONFIGURATION AND LAUNCHES KERNEL
 void iterate(int t)
 {
-	// GRID AND BLOCK DEFINITIONS CAN BE CALcppLATED BEFORE ITERATE
-	// DEFINE GRID AND BLOCK DIMS
-	int3 threads;
-	threads.x = (int)ceilf((float)domain_constants->length[0]/(float)NUM_THREADS_DIM_X);
-	threads.y = (int)ceilf((float)domain_constants->length[1]/(float)NUM_THREADS_DIM_Y);
-	threads.z = 1;
-
-	int3 blocks;
-	blocks.x = NUM_THREADS_DIM_X;
-	blocks.y = NUM_THREADS_DIM_Y;
-	blocks.z = 1;
-
-	#if DIM >2
-		threads.z = (int)ceilf((float)domain_constants->length[2]/(float)NUM_THREADS_DIM_Z);;
-		blocks.z = NUM_THREADS_DIM_Z;
-	#endif
-
-	dim3 grid_dim = dim3(threads.x,threads.y,threads.z);
-    dim3 block_dim = dim3(blocks.x,blocks.y,blocks.z);
-	cppdaThreadSynchronize();
-	Check_cppDA_Error("Kernel \"iterate_bulk 1\" Execpption Failed!");  
 	// ITERATE ONCE
-	iterate_kernel<<<grid_dim, block_dim>>>(lattice_device, domain_device, store_macros,t);
-	cppdaThreadSynchronize();
-	Check_cppDA_Error("Kernel \"iterate_bulk 1\" Execpption Failed!");  
-	// SWAP cppRR AND PREV LATTICE POINTERS READY FOR NEXT ITER
-	//swap_lattices();
+	for (int k = 0; k < domain_constants->length[2]; k++)
+	{
+		for (int j = 0; j < domain_constants->length[1]; j++)
+		{
+			for (int i = 0; i < domain_constants->length[0]; i++)
+			{
+				iterate_kernel(lattice, domain, domain_constants, store_macros, t, i, j, k);
+			}
+		}
+	}
 }
 
-#if DIM > 2
-	struct energy
-	{
-	    template <typename Tuple>
-	    __host__ __device__
-	    void operator()(Tuple t)
-	    {
-	        thrust::get<4>(t) = 0.5*thrust::get<3>(t)*((thrust::get<0>(t)*thrust::get<0>(t)) + (thrust::get<1>(t)*thrust::get<1>(t)) + (thrust::get<2>(t)*thrust::get<2>(t)));
-	    }
-	};
-#else
-	struct energy
-	{
-	    template <typename Tuple>
-	    __host__ __device__
-	    void operator()(Tuple t)
-	    {
-	        thrust::get<3>(t) = 0.5*thrust::get<2>(t)*((thrust::get<0>(t)*thrust::get<0>(t)) + (thrust::get<1>(t)*thrust::get<1>(t)));
-	}
-	};
-#endif
-
-
-double current_RMS(double *device_var_u[DIM], double *device_var_rho, int var_size)
+double current_RMS(Domain *domain)
 {
-	double *result;
-	cppdasafe(cppdaMalloc((void **)&result,sizeof(double)*var_size), "Model Builder: Device memory allocation failed!");
-
-	// wrap raw pointer with a device_ptr for thrust compatibility
-	thrust::device_ptr<double> dev_ptr_x(device_var_u[0]);
-	thrust::device_ptr<double> dev_ptr_y(device_var_u[1]);
-	#if DIM > 2
-		thrust::device_ptr<double> dev_ptr_z(device_var_u[2]);
-	#endif
-	thrust::device_ptr<double> dev_ptr_rho(device_var_rho);
-	thrust::device_ptr<double> dev_ptr_res(result);
-
-	// apply the transformation
-	#if DIM > 2
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(dev_ptr_x, dev_ptr_y, dev_ptr_z, dev_ptr_rho, dev_ptr_res)),
-                     thrust::make_zip_iterator(thrust::make_tuple(dev_ptr_x+var_size, dev_ptr_y+var_size, dev_ptr_z+var_size, dev_ptr_rho+var_size, dev_ptr_res+var_size)),
-                     energy());
-	#else
-		thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(dev_ptr_x, dev_ptr_y, dev_ptr_rho, dev_ptr_res)),
-                     thrust::make_zip_iterator(thrust::make_tuple(dev_ptr_x+var_size, dev_ptr_y+var_size, dev_ptr_rho+var_size, dev_ptr_res+var_size)),
-                     energy());
-	#endif
-	Check_cppDA_Error("Steady State Calcpplation Kernel Execpption Failed!");  
-    
-	// Compute RMS value
-	//double sum = thrust::reduce(dev_ptr_res, dev_ptr_res+var_size, (double) 0, thrust::plus<double>());
-	//double cpprr_RMS = sqrt(sum/var_size);
-
-	double cpprr_RMS = thrust::reduce(dev_ptr_res, dev_ptr_res+var_size, (double) 0, thrust::plus<double>());
-
-	cppdasafe(cppdaFree(result),"Freeing Device Memory");
-
-	return cpprr_RMS;
+	double curr_RMS = 0;
+	for (int k = 0; k < domain_constants->length[2]; k++)
+	{
+		for (int j = 0; j < domain_constants->length[1]; j++)
+		{
+			for (int i = 0; i < domain_constants->length[0]; i++)
+			{
+				int ixd = i + j*domain_constants->length[0] + k*domain_constants->length[0] * domain_constants->length[1];
+				double rho = domain->rho[ixd];
+				double u = 0;
+				for (int d = 0; d < DIM; d++)
+				{
+					u += domain->u[0][ixd] * domain->u[0][ixd];
+				}
+				double energy = 0.5*rho*u; // u is velocity squared here
+				curr_RMS += energy;	
+			}
+		}
+	}
+	return sqrt(curr_RMS / (domain_constants->length[0] * domain_constants->length[1] * domain_constants->length[2]));
 }
 
 double prev_RMS = 0;
 
-double error_RMS(double *device_var_u[DIM], double *device_var_rho, int var_size)
+double error_RMS(Domain *domain)
 {
-	double cpprr_RMS = cpprrent_RMS(device_var_u, device_var_rho, var_size);
-	double tmp = ((abs(cpprr_RMS-prev_RMS)/times->steady_check))/cpprr_RMS;
+	double curr_RMS = current_RMS(domain);
+	double tmp = ((abs(curr_RMS-prev_RMS)/times->steady_check))/curr_RMS;
 
-	prev_RMS = cpprr_RMS;
+	prev_RMS = curr_RMS;
 
 	return tmp;
 }
 
 void compute_residual(int time)
 {
-	int domain_size = domain_constants->length[0]*domain_constants->length[1];
-	#if DIM > 2
-		domain_size = domain_size*domain_constants->length[2];
-	#endif
-
-	Domain domain_tmp;
-
-	cppdasafe(cppdaMemcpy(&domain_tmp, domain_device, sizeof(Domain),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	double *u_tmp[DIM];
-	cppdasafe(cppdaMemcpy(u_tmp, domain_tmp.u, sizeof(double*)*DIM,cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	//double *rho_tmp;
-	//cppdasafe(cppdaMemcpy(rho_tmp, domain_tmp.rho, sizeof(double*),cppdaMemcpyDeviceToHost),"Model Builder: Copy from device memory failed!");
-
-	/*cppdasafe(cppdaMemcpy(domain->u[0], u_tmp[0], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
-	cppdasafe(cppdaMemcpy(domain->u[1], u_tmp[1], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");
-	cppdasafe(cppdaMemcpy(domain->u[2], u_tmp[2], sizeof(double)*domain_size,cppdaMemcpyDeviceToHost),"Copy Data: Output Data - u");*/
-
-//	domain_constants->residual = error_RMS(u_tmp[0],u_tmp[1],u_tmp[2], rho_tmp,domain_size);
-	domain_constants->residual[time%NUM_RESIDS] = error_RMS(u_tmp, domain_tmp.rho,domain_size);
+	domain_constants->residual[time%NUM_RESIDS] = error_RMS(domain);
 }
 
 void screen_mess(int iter, int coord[DIM])

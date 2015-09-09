@@ -7,7 +7,7 @@
 #include "boundary_conditions/micro_bc.h"
 
 
-void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_constants, bool store_macros, int t)
+void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_constants, bool store_macros, int t, int x, int y, int z)
 {
 	// Declare Variables
 	int ixd, target_ixd, domain_size;
@@ -16,10 +16,10 @@ void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_co
 	Node current_node;
 	
 	// Compute coordinates
-	current_node.coord[0] = (blockDim.x*blockIdx.x)+threadIdx.x;
-	current_node.coord[1] = (blockDim.y*blockIdx.y)+threadIdx.y;
+	current_node.coord[0] = x;
+	current_node.coord[1] = y;
 	#if DIM>2
-		current_node.coord[2] = (blockDim.z*blockIdx.z)+threadIdx.z;
+		current_node.coord[2] = z;
 		ixd = (current_node.coord[0] + current_node.coord[1]*domain_constants->length[0] + current_node.coord[2]*domain_constants->length[0]*domain_constants->length[1]);
 		domain_size = domain_constants->length[0]*domain_constants->length[1]*domain_constants->length[2];
 	#else
@@ -108,7 +108,7 @@ void iterate_kernel (Lattice *lattice, Domain *domain, DomainConstant *domain_co
 		if(micro_bc>0) micro_conditions[micro_bc-1](&current_node, lattice);
 
 		// COLLISION
-		collision_functions[collision_type](&current_node, &domain_constants, &tau);
+		collision_functions[collision_type](&current_node, domain_constants, &tau);
 		
 		// COALESCED STREAMING WRITE
 		for(int i=0;i<Q;i++)
