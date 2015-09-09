@@ -1,12 +1,9 @@
 ## Overview
 Current Version: 0.1
 
-LBM-C is a lattice Boltzmann 2D and 3D fluid flow solver implemented using nVidia's CUDA platform. LBM-C is written in CUDA C and is licensed under GPL v2, you are invited to use, alter and improve upon LBM-C at your own discretion. The objectives of this open source code are:
+BoltFlow is a lattice Boltzmann 2D and 3D fluid flow solver implemented in C++. BoltFlow is written in CUDA C and is licensed under GPL v2, you are invited to use, alter and improve upon BoltFlow at your own discretion.
 
-* To provide a straight-forward CUDA based implementation of the lattice Boltzmann method for modelling fluid flows
-* Encourage collaboration through the nature of open source code
-* Exercise the power of graphics hardware for the purposes of CFD (computational fluid dynamics)
-* If you wish to contribute to LBM-C a good place to start is the LBM-C google group.
+The main objective of this code is to provide a CPU only platform built from my previous GPU code, LBM-C. In the future, this will provide a testbed from which to explore OpenMP accelerators, and OpenACC.
 
 #### Features
 * Models may be configured through use of a simple matlab interface
