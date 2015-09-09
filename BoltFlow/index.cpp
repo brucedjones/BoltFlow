@@ -278,7 +278,7 @@ double current_RMS(Domain *domain)
 				double u = 0;
 				for (int d = 0; d < DIM; d++)
 				{
-					u += domain->u[0][ixd] * domain->u[0][ixd];
+					u += domain->u[d][ixd] * domain->u[d][ixd];
 				}
 				double energy = 0.5*rho*u; // u is velocity squared here
 				curr_RMS += energy;	
