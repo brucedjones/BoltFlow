@@ -97,8 +97,10 @@ int main(int argc, char **argv)
 	printf("\nPress return to continue...");
 	if (output_controller->interactive == true) getchar();
 
-	// Get cpprrent clock cycle number
+	// Get current clock cycle number
 	clock_t t1=clock();
+	clock_t t1Mess = t1;
+	clock_t t2Mess = t1;
 
 	int domain_size=1;
 	int stop=0;
@@ -123,7 +125,11 @@ int main(int argc, char **argv)
 
 		if(times->screen>0 && i%times->screen == 0)
 		{
-			screen_mess(i,output_controller->screen_node);
+			t2Mess = clock();
+			double timePerIter = (((double)t2Mess - (double)t1Mess) / (double)CLOCKS_PER_SEC) / (double)times->screen;
+			double lups = domain_size / timePerIter;
+			t1Mess = t2Mess;
+			screen_mess(i,output_controller->screen_node,lups);
 			store_macros = false;
 		}
 
@@ -252,6 +258,7 @@ void output_macros(int time)
 void iterate(int t)
 {
 	// ITERATE ONCE
+#pragma omp parallel for
 	for (int k = 0; k < domain_constants->length[2]; k++)
 	{
 		for (int j = 0; j < domain_constants->length[1]; j++)
@@ -305,14 +312,14 @@ void compute_residual(int time)
 	domain_constants->residual[time%NUM_RESIDS] = error_RMS(domain);
 }
 
-void screen_mess(int iter, int coord[DIM])
+void screen_mess(int iter, int coord[DIM], double lups)
 {
 	int idx = coord[0]+coord[1]*domain_constants->length[0];
 	#if DIM > 2
 		idx += coord[2]*domain_constants->length[0]*domain_constants->length[1];
 	#endif
 
-	cout << "time = " << iter << "; rho = " << domain->rho[idx] << "; uX = " << domain->u[0][idx] << "; uY = " << domain->u[1][idx] << "; ";
+		cout << "time = " << iter << "; Lup/s = " << lups << "; rho = " << domain->rho[idx] << "; uX = " << domain->u[0][idx] << "; uY = " << domain->u[1][idx] << "; ";
 	#if DIM>2
 		cout << "uZ = " << domain->u[2][idx] << "; ";
 	#endif
