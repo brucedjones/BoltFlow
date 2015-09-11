@@ -1,293 +1,299 @@
+cmake_minimum_required(VERSION 2.6)
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0003 NEW)
+  if (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+    cmake_policy(SET CMP0015 OLD)
+  endif (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+endif(COMMAND cmake_policy)
 
-##########
-# Global #
-##########
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING
+  "one of: Release, Debug, RelWithDebInfo or MinSizeRel")
+if (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release;Debug;RelWithDebInfo;MinSizeRel")
+endif (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
 
-if (WIN32)
-  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-endif (WIN32)
+project("cgns" C)
+set(CGNS_VERSION "3.1")
 
-# Include the local directory
-include_directories(.)
-if (ENABLE_HDF5)
-  add_definitions(-DBUILD_HDF5)
-  if (WIN32)
-    if (HDF5_LIBRARY)
-      file(STRINGS ${HDF5_LIBRARY} HDF5isDLL REGEX "__imp__H5close")
-      if (HDF5isDLL)
-        # this is only needed when using hdf5 dll libs
-        add_definitions(-DWIN32 -D_HDF5USEDLL_)
-      endif (HDF5isDLL)
-    endif (HDF5_LIBRARY)
-  endif (WIN32)
-  # Includes from HDF5
-  if (HDF5_INCLUDE_PATH)
-    include_directories(${HDF5_INCLUDE_PATH})
-  endif (HDF5_INCLUDE_PATH)
-  if(HDF5_NEED_MPI AND MPI_INC)
-    include_directories(${MPI_INC})
-  endif(HDF5_NEED_MPI AND MPI_INC)
-endif (ENABLE_HDF5)
+# Allow for building a package
+set(CPACK_PACKAGE_VERSION "${CGNS_VERSION}-develop")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "cgns-${CGNS_VERSION}")
+set(CPACK_GENERATOR "STGZ;TGZ;ZIP")
+set(CPACK_SOURCE_GENERATOR "STGZ;TGZ;ZIP")
+include(CPack)
 
-################################
-# create configed header files #
-################################
+CONFIGURE_FILE(
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+	IMMEDIATE @ONLY)
 
-if (${SIZE_OF_LONG} GREATER 4)
-  set(CGLONGT long)
-else (${SIZE_OF_LONG} GREATER 4)
-  set(CGLONGT "long long")
-endif (${SIZE_OF_LONG} GREATER 4)
+ADD_CUSTOM_TARGET(uninstall
+	"${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-set(BUILDLEGACY 0)
-set(BUILD64BIT 0)
-set(BUILDSCOPE 0)
+# if this is cygwin, turn off win32 flag
+if (CYGWIN)
+  set(WIN32 "NO")
+endif (CYGWIN)
+
+##############
+# build mode #
+##############
+
+# get some type sizes
+include(CheckTypeSize)
+CHECK_TYPE_SIZE(long SIZE_OF_LONG)
+CHECK_TYPE_SIZE(off_t SIZE_OF_OFF_T)
+
+if ("${SIZE_OF_OFF_T}" LESS 8)
+  option(ENABLE_LFS "Enable or disable large file support" "OFF")
+endif ("${SIZE_OF_OFF_T}" LESS 8)
+
+if ("${CMAKE_SIZEOF_VOID_P}" GREATER 4)
+  option(ENABLE_64BIT "Enable or disable 64-bit code building" "OFF")
+else ("${CMAKE_SIZEOF_VOID_P}" GREATER 4)
+  set(ENABLE_64BIT "OFF")
+endif ("${CMAKE_SIZEOF_VOID_P}" GREATER 4)
+
+option(ENABLE_LEGACY "Enable or disable building legacy code (3.0 compatible)" "OFF")
+option(ENABLE_SCOPING "Enable or disable scoping of enumeration values" "OFF")
 
 if (ENABLE_LEGACY)
-  set(BUILDLEGACY 1)
-  set(CGFSIZET "")
+  set(ENABLE_64BIT "OFF")
+  mark_as_advanced(FORCE ENABLE_64BIT)
 else (ENABLE_LEGACY)
-  if (ENABLE_64BIT)
-    set(BUILD64BIT 1)
-    set(CGFSIZET *8)
-  else (ENABLE_64BIT)
-    set(CGFSIZET *4)
-  endif (ENABLE_64BIT)
+  mark_as_advanced(CLEAR ENABLE_64BIT)
 endif (ENABLE_LEGACY)
 
-if (ENABLE_SCOPING)
-  set(BUILDSCOPE 1)
-endif (ENABLE_SCOPING)
+if (ENABLE_64BIT)
+  set(ENABLE_LEGACY "OFF")
+  mark_as_advanced(FORCE ENABLE_LEGACY)
+else (ENABLE_64BIT)
+  mark_as_advanced(CLEAR ENABLE_LEGACY)
+endif (ENABLE_64BIT)
 
-#create these in build directory so is doesn't mess up the
-#source directory, then add the path to them
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/cgnstypes.h.in
-		${CMAKE_CURRENT_BINARY_DIR}/cgnstypes.h )
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/cgnstypes_f.h.in
-		${CMAKE_CURRENT_BINARY_DIR}/cgnstypes_f.h )
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/cgnslib_f.h.in
-		${CMAKE_CURRENT_BINARY_DIR}/cgnslib_f.h )
+if (ENABLE_LFS)
+  if (WIN32)
+    add_definitions(-DHAVE_LSEEK64 -DHAVE_LSEEK64)
+  else (WIN32)
+    include(CheckFunctionExists)
+    CHECK_FUNCTION_EXISTS(open64 HAVE_OPEN64)
+    CHECK_FUNCTION_EXISTS(lseek64 HAVE_LSEEK64)
+    if (HAVE_OPEN64)
+      add_definitions(-DHAVE_LSEEK64)
+    endif (HAVE_OPEN64)
+    if (HAVE_OPEN64)
+      add_definitions(-DHAVE_LSEEK64)
+    endif (HAVE_LSEEK64)
+  endif (WIN32)
+else (ENABLE_LFS)
+  remove_definitions(-DHAVE_OPEN64 -DHAVE_LSEEK64)
+endif (ENABLE_LFS)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-######################################################
-# configure for cgnsBuild.defs file for installation #
-######################################################
-
-set(SYSCFLAGS)
-set(CFGFLAGS)
-set(LIBS)
-if (ENABLE_FORTRAN)
-  set(BUILDFORTRAN 1)
-else (ENABLE_FORTRAN)
-  set(BUILDFORTRAN 0)
-endif (ENABLE_FORTRAN)
-
-file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/lib LIBDIR)
-file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/include INCLUDEDIR)
-file(TO_NATIVE_PATH ${CMAKE_C_COMPILER} CC)
-if (WIN32)
-  set(CGNSLIB cgns.lib)
-else (WIN32)
-  set(CGNSLIB libcgns.a)
-  set(LIBS -lm)
-endif (WIN32)
-
-string(COMPARE EQUAL ${CMAKE_BUILD_TYPE} Debug IS_DEBUG)
-if (IS_DEBUG)
-  set(BUILDDEBUG 1)
-  set(CFLAGS ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG})
-  set(LDFLAGS ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
-else (IS_DEBUG)
-  set(BUILDDEBUG 0)
-  set(CFLAGS ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE})
-  set(LDFLAGS ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_RELEASE})
-endif (IS_DEBUG)
-
-set(HDF5INC)
-set(HDF5LIB)
-set(SZIPLIB)
-set(ZLIBLIB)
-set(MPIINC)
-set(MPILIBS)
-
-macro(native_paths INPUT_PATH_VARIABLE RESULT_VARIABLE)
-  set(${RESULT_VARIABLE} "")
-  foreach(PATH ${${INPUT_PATH_VARIABLE}})
-    file(TO_NATIVE_PATH ${PATH} NATIVE_PATH)
-    list(APPEND ${RESULT_VARIABLE} ${NATIVE_PATH})
-  endforeach(PATH ${${INPUT_PATH_VARIABLE}})
-endmacro(native_paths)
-
-if (ENABLE_HDF5)
-  if (HDF5_INCLUDE_PATH)
-    native_paths(HDF5_INCLUDE_PATH HDF5INC)
-  endif (HDF5_INCLUDE_PATH)
-  if (HDF5_LIBRARY)
-    native_paths(HDF5_LIBRARY HDF5LIB)
-  endif (HDF5_LIBRARY)
-  if (HDF5_NEED_SZIP AND SZIP_LIBRARY)
-    native_paths(SZIP_LIBRARY SZIPLIB)
-  endif (HDF5_NEED_SZIP AND SZIP_LIBRARY)
-  if (HDF5_NEED_ZLIB AND ZLIB_LIBRARY)
-    native_paths(ZLIB_LIBRARY ZLIBLIB)
-  endif (HDF5_NEED_ZLIB AND ZLIB_LIBRARY)
-  if (HDF5_NEED_MPI)
-    if (MPI_INC)
-      native_paths(MPI_INC MPIINC)
-    endif (MPI_INC)
-    if (MPI_LIBS)
-      native_paths(MPI_LIBS MPILIBS)
-    endif (MPI_LIBS)
-  endif (HDF5_NEED_MPI)
-endif (ENABLE_HDF5)
-
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/cgnsBuild.defs.in
-		${CMAKE_CURRENT_BINARY_DIR}/cgnsBuild.defs )
-
-###########
-# Library #
-###########
-
-# All the C files needed by the cgns library
-set(cgns_C_FILES
-	cgns_error.c
-	cgns_internals.c
-	cgns_io.c
-	cgnslib.c
-	adf/ADF_interface.c
-	adf/ADF_internals.c)
-
-# All the Fortran files need by the cgns library (if enabled)
-set(cgns_F_FILES
-	cg_ftoc.c
-	cgio_ftoc.c)
-
-# Only build those files that are needed
-if (ENABLE_FORTRAN)
-  if (FORTRAN_NAMING)
-    set_property(SOURCE ${cgns_F_FILES}
-      PROPERTY COMPILE_DEFINITIONS ${FORTRAN_NAMING})
-  endif (FORTRAN_NAMING)
-  if (ENABLE_HDF5)
-    set(cgns_FILES ${cgns_C_FILES} adfh/ADFH.c ${cgns_F_FILES})
-  else (ENABLE_HDF5)
-    set(cgns_FILES ${cgns_C_FILES} ${cgns_F_FILES})
-  endif (ENABLE_HDF5)
-else (ENABLE_FORTRAN)
-  if (ENABLE_HDF5)
-    set(cgns_FILES ${cgns_C_FILES} adfh/ADFH.c)
-  else (ENABLE_HDF5)
-    set(cgns_FILES ${cgns_C_FILES})
-  endif (ENABLE_HDF5)
-endif (ENABLE_FORTRAN)
-
-set(CGNS_BUILD_SHARED "ON" CACHE BOOL "Build a shared version of the library")
-option(CGNS_USE_SHARED "Link programs to the CGNS shared library" "ON")
-
-# Build a static version of the library
-add_library(cgns_static STATIC ${cgns_FILES})
-
-# Build a shared version of the library
-if(CGNS_BUILD_SHARED)
-  mark_as_advanced(CLEAR CGNS_USE_SHARED)
-  add_library(cgns_shared SHARED ${cgns_FILES})
-  # under windows we need to define BUILD_DLL
-  # and link with the HDF5 libraries to build a dll
-  if (WIN32 OR CYGWIN)
-    add_definitions(-DBUILD_DLL)
-    if (ENABLE_HDF5 AND HDF5_LIBRARY)
-      target_link_libraries(cgns_shared ${HDF5_LIBRARY})
-      if(HDF5_NEED_ZLIB AND ZLIB_LIBRARY)
-        target_link_libraries(cgns_shared ${ZLIB_LIBRARY})
-      endif(HDF5_NEED_ZLIB AND ZLIB_LIBRARY)
-      if(HDF5_NEED_SZIP AND SZIP_LIBRARY)
-        target_link_libraries(cgns_shared ${SZIP_LIBRARY})
-      endif(HDF5_NEED_SZIP AND SZIP_LIBRARY)
-      if(HDF5_NEED_MPI AND MPI_LIBS)
-        target_link_libraries(cgns_shared ${MPI_LIBS})
-      endif(HDF5_NEED_MPI AND MPI_LIBS)
-    endif (ENABLE_HDF5 AND HDF5_LIBRARY)
-  endif (WIN32 OR CYGWIN)
-else(CGNS_BUILD_SHARED)
-  set(CGNS_USE_SHARED "OFF")
-  mark_as_advanced(FORCE CGNS_USE_SHARED)
-endif(CGNS_BUILD_SHARED)
-
-# Change the output name of the library to be libcgns
-set_target_properties(cgns_static PROPERTIES OUTPUT_NAME cgns)
-set_target_properties(cgns_static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-if(CGNS_BUILD_SHARED)
-  # for windows we need to change the name of the shared library
-  # for both static and shared version to exist
-  if (WIN32 OR CYGWIN)
-    set_target_properties(cgns_shared PROPERTIES OUTPUT_NAME cgnsdll)
-  else (WIN32 OR CYGWIN)
-    set_target_properties(cgns_shared PROPERTIES OUTPUT_NAME cgns)
-  endif (WIN32 OR CYGWIN)
-  set_target_properties(cgns_shared PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-endif(CGNS_BUILD_SHARED)
-
-# Set the version numbers
-set_target_properties(cgns_static PROPERTIES VERSION ${CGNS_VERSION})
-set_target_properties(cgns_static PROPERTIES SOVERSION ${CGNS_VERSION})
-
-if(CGNS_BUILD_SHARED)
-  set_target_properties(cgns_shared PROPERTIES VERSION ${CGNS_VERSION})
-  set_target_properties(cgns_shared PROPERTIES SOVERSION ${CGNS_VERSION})
-endif(CGNS_BUILD_SHARED)
-
-# Set the install path of the static library
-install(TARGETS cgns_static ARCHIVE DESTINATION lib)
-# Set the install path of the shared library
-if(CGNS_BUILD_SHARED)
-  # for windows, need to install both cgnsdll.dll and cgnsdll.lib
-  if (WIN32 OR CYGWIN)
-    install(TARGETS cgns_shared ARCHIVE DESTINATION lib)
-    install(TARGETS cgns_shared RUNTIME DESTINATION lib)
-  else (WIN32 OR CYGWIN)
-    install(TARGETS cgns_shared LIBRARY DESTINATION lib)
-  endif (WIN32 OR CYGWIN)
-endif(CGNS_BUILD_SHARED)
-
-# Set the install path of the header files
-install(FILES
-	cgnslib.h
-	cgns_io.h
-	cgnswin_f.h
-	${CMAKE_CURRENT_BINARY_DIR}/cgnstypes.h
-	${CMAKE_CURRENT_BINARY_DIR}/cgnstypes_f.h
-	${CMAKE_CURRENT_BINARY_DIR}/cgnslib_f.h
-	${CMAKE_CURRENT_BINARY_DIR}/cgnsBuild.defs
-	DESTINATION include)
-
-if (ENABLE_LEGACY)
-  install(FILES adf/ADF.h DESTINATION include/adf)
-  if (ENABLE_HDF5)
-    install(FILES adfh/ADFH.h DESTINATION include/adfh)
-  endif (ENABLE_HDF5)
-endif (ENABLE_LEGACY)
-
-#########
-# Tools #
-#########
-
-add_subdirectory(tools)
-
-#########
-# Tests #
-#########
-
+option(ENABLE_TESTS "Enable test programs" "OFF")
 if (ENABLE_TESTS)
-  add_subdirectory(tests)
+  enable_testing()
 endif (ENABLE_TESTS)
 
-##############
-# CGNS Tools #
-##############
+###########
+# Fortran #
+###########
 
+# Allow fortran support to be toggled
+option(ENABLE_FORTRAN "Enable or disable the use of Fortran" "OFF")
+if (NOT DEFINED FORTRAN_NAMING)
+  set(FORTRAN_NAMING "UNKNOWN")
+endif (NOT DEFINED FORTRAN_NAMING)
+set(F2CLIST  "LOWERCASE" "LOWERCASE_" "LOWERCASE__" "UPPERCASE" "UPPERCASE_" "UPPERCASE__")
+set(FORTRAN_NAMING_HELP
+"Configures how to link the Fortran components into the C library.
+Options are:
+	LOWERCASE
+	LOWERCASE_
+	LOWERCASE__
+	UPPERCASE
+	UPPERRCASE_
+	UPPERRCASE__
+LOWERCASE_ is known to work with gfortran.  If this setting
+does not work with your compiler, try the others until one does.
+")
 
-set(BUILD_CGNSTOOLS "OFF" CACHE BOOL "Build the CGNSTools package")
-if(BUILD_CGNSTOOLS)
-	add_subdirectory(cgnstools)
-endif(BUILD_CGNSTOOLS)
+# If we are using fortran, enable it and configure the C-Fortran interface
+# It would be nice to automatically detect this setting
+
+if(ENABLE_FORTRAN)
+  mark_as_advanced(CLEAR FORTRAN_NAMING)
+  #only do this once
+  if (FORTRAN_NAMING STREQUAL "UNKNOWN")
+    enable_language("Fortran" OPTIONAL)
+    set(HAS_FORTRAN ${CMAKE_Fortran_COMPILER_WORKS} CACHE INTERNAL "")
+    # if no Fortran compiler, skip this
+    if (CMAKE_Fortran_COMPILER_WORKS)
+      foreach(nc ${F2CLIST})
+        try_compile(NAMING_TEST_RESULT
+	    "${CMAKE_BINARY_DIR}/fortran_test"
+	    "${CMAKE_SOURCE_DIR}/fortran_test"
+	    projectName ${nc})
+        if(${NAMING_TEST_RESULT} STREQUAL "TRUE")
+          set(FORTRAN_NAMING "${nc}" CACHE STRING ${FORTRAN_NAMING_HELP})
+          if (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+            set_property(CACHE FORTRAN_NAMING PROPERTY STRINGS ${F2CLIST})
+          endif (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+          message(STATUS "Trying Fortran naming convention ${FORTRAN_NAMING}: success")
+          message(STATUS "Setting fortran naming convention to ${FORTRAN_NAMING}")
+          break()
+        else(${NAMING_TEST_RESULT} STREQUAL "TRUE")
+          message(STATUS "Trying Fortran naming convention ${nc}: failure")
+        endif(${NAMING_TEST_RESULT} STREQUAL "TRUE")
+      endforeach(nc ${F2CLIST})
+    endif (CMAKE_Fortran_COMPILER_WORKS)
+  endif (FORTRAN_NAMING STREQUAL "UNKNOWN")
+else(ENABLE_FORTRAN)
+  mark_as_advanced(FORCE FORTRAN_NAMING)
+endif(ENABLE_FORTRAN)
+
+# check that FORTRAN_NAMING is valid
+if (ENABLE_FORTRAN)
+  if (FORTRAN_NAMING STREQUAL "UNKNOWN")
+    if (WIN32)
+      set(FORTRAN_NAMING "UPPERCASE" CACHE STRING ${FORTRAN_NAMING_HELP})
+    else (WIN32)
+      set(FORTRAN_NAMING "LOWERCASE_" CACHE STRING ${FORTRAN_NAMING_HELP})
+    endif (WIN32)
+    if (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+      set_property(CACHE FORTRAN_NAMING PROPERTY STRINGS ${F2CLIST})
+    endif (${CMAKE_MAJOR_VERSION} GREATER 2 OR ${CMAKE_MINOR_VERSION} GREATER 7)
+  else (FORTRAN_NAMING STREQUAL "UNKNOWN")
+    list(FIND F2CLIST "${FORTRAN_NAMING}" ListIndex)
+    if (ListIndex LESS 0)
+      message(SEND_ERROR "invalid FORTRAN_NAMING value. Must be empty or one of:
+        LOWERCASE
+        LOWERCASE_
+        LOWERCASE__
+        UPPERCASE
+        UPPERRCASE_
+        UPPERRCASE__")
+    endif (ListIndex LESS 0)
+  endif (FORTRAN_NAMING STREQUAL "UNKNOWN")
+endif (ENABLE_FORTRAN)
+
+# this forces cmake to set up the required Fortran variables
+if (ENABLE_FORTRAN AND HAS_FORTRAN)
+  enable_language("Fortran")
+endif (ENABLE_FORTRAN AND HAS_FORTRAN)
+
+########
+# HDF5 #
+########
+
+option(ENABLE_HDF5 "Enable or disable HDF5 interface" "OFF")
+if (ENABLE_HDF5)
+  find_path(HDF5_INCLUDE_PATH hdf5.h)
+  find_library(HDF5_LIBRARY hdf5)
+
+  set(HDF5_NEED_ZLIB "OFF" CACHE BOOL "Does the HDF5 library require linking to zlib?")
+  if(HDF5_NEED_ZLIB)
+    find_library(ZLIB_LIBRARY z)
+    mark_as_advanced(CLEAR ZLIB_LIBRARY)
+  else (HDF5_NEED_ZLIB)
+    mark_as_advanced(FORCE ZLIB_LIBRARY)
+  endif(HDF5_NEED_ZLIB)
+
+  set(HDF5_NEED_SZIP "OFF" CACHE BOOL "Does the HDF5 library require linking to zlib?")
+  if (HDF5_NEED_SZIP)
+    find_library(SZIP_LIBRARY szip)
+    mark_as_advanced(CLEAR SZIP_LIBRARY)
+  else (HDF5_NEED_SZIP)
+    mark_as_advanced(FORCE SZIP_LIBRARY)
+  endif (HDF5_NEED_SZIP)
+
+  set(HDF5_NEED_MPI "OFF" CACHE BOOL "Does the HDF5 library require linking to mpi? (Only true if using parallel HDF5)")
+  set(MPI_INC)
+  set(MPI_LIBS)
+  if (HDF5_NEED_MPI)
+    if (NOT MPI_FOUND)
+      include(FindMPI)
+    endif (NOT MPI_FOUND)
+    # MPI variable names changed with cmake 2.8.5
+    if (DEFINED MPI_C_COMPILER)
+      mark_as_advanced(CLEAR MPI_C_COMPILER MPI_C_INCLUDE_PATH MPI_C_LIBRARIES)
+      mark_as_advanced(FORCE MPI_LIBRARY MPI_EXTRA_LIBRARY)
+      set(MPI_INC ${MPI_C_INCLUDE_PATH})
+      set(MPI_LIBS ${MPI_C_LIBRARIES})
+    else (DEFINED MPI_C_COMPILER)
+      mark_as_advanced(CLEAR MPI_COMPILER MPI_INCLUDE_PATH MPI_LIBRARY MPI_EXTRA_LIBRARY)
+      set(MPI_INC ${MPI_INCLUDE_PATH})
+      if (MPI_EXTRA_LIBRARY)
+        set(MPI_LIBS ${MPI_LIBRARY} ${MPI_EXTRA_LIBRARY})
+      else (MPI_EXTRA_LIBRARY)
+        set(MPI_LIBS ${MPI_LIBRARY})
+      endif (MPI_EXTRA_LIBRARY)
+    endif (DEFINED MPI_C_COMPILER)
+    if (ENABLE_TESTS AND ENABLE_PARALLEL)
+      mark_as_advanced(CLEAR MPIEXEC)
+    else (ENABLE_TESTS AND ENABLE_PARALLEL)
+      mark_as_advanced(FORCE MPIEXEC)
+    endif (ENABLE_TESTS AND ENABLE_PARALLEL)
+  else (HDF5_NEED_MPI)
+    mark_as_advanced(FORCE MPI_C_COMPILER MPI_C_INCLUDE_PATH MPI_C_LIBRARIES)
+    mark_as_advanced(FORCE MPI_COMPILER MPI_INCLUDE_PATH MPI_LIBRARY MPI_EXTRA_LIBRARY MPIEXEC)
+  endif (HDF5_NEED_MPI)
+  mark_as_advanced(CLEAR HDF5_NEED_ZLIB HDF5_NEED_SZIP HDF5_NEED_MPI)
+else (ENABLE_HDF5)
+  mark_as_advanced(FORCE HDF5_NEED_ZLIB HDF5_NEED_SZIP HDF5_NEED_MPI)
+  mark_as_advanced(FORCE HDF5_INCLUDE_PATH HDF5_LIBRARY)
+  mark_as_advanced(FORCE ZLIB_LIBRARY SZIP_LIBRARY)
+  mark_as_advanced(FORCE MPI_C_COMPILER MPI_C_INCLUDE_PATH MPI_C_LIBRARIES)
+  mark_as_advanced(FORCE MPI_COMPILER MPI_INCLUDE_PATH MPI_LIBRARY MPI_EXTRA_LIBRARY MPIEXEC)
+endif (ENABLE_HDF5)
+
+#################
+# parallel cgns #
+#################
+
+if (ENABLE_HDF5 AND HDF5_NEED_MPI)
+  set(BUILD_PCGNS "OFF" CACHE BOOL "Build parallel CGNS ?")
+  mark_as_advanced(CLEAR BUILD_PCGNS)
+else (ENABLE_HDF5 AND HDF5_NEED_MPI)
+  set(BUILD_PCGNS "OFF")
+  mark_as_advanced(FORCE BUILD_PCGNS)
+endif (ENABLE_HDF5 AND HDF5_NEED_MPI)
+
+if (ENABLE_TESTS AND BUILD_PCGNS)
+  mark_as_advanced(CLEAR MPIEXEC)
+else (ENABLE_TESTS AND BUILD_PCGNS)
+  mark_as_advanced(FORCE MPIEXEC)
+endif (ENABLE_TESTS AND BUILD_PCGNS)
+
+####################
+# RPATH Management #
+####################
+
+# use, i.e. don't skip the full RPATH for the build tree
+set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+
+# when building, don't use the install RPATH already
+# (but later on when installing)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+
+# the RPATH to be used when installing
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+# add the automatically determined parts of the RPATH
+# which point to directories outside the build tree to the install RPATH
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+########
+# CGNS #
+########
+
+# Include the src directory
+add_subdirectory(src)
+
+#########
+# PCGNS #
+#########
+
+if (BUILD_PCGNS)
+  add_subdirectory(pcgns/src)
+endif (BUILD_PCGNS)
+
