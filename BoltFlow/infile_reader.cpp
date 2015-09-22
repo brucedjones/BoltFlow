@@ -36,13 +36,13 @@ class InfileReader {
 		string line_part;
 		while(getline(data_file, line_tot))
 		{
-			std::getline(stringstream(line_tot),line_part,'#');
-			process_data_field(line_part, line_tot);
+			//std::getline(stringstream(line_tot),line_part,'#');
+			process_data_field(line_tot);
 
 		}
 	}
 
-	void process_data_field(string line, string line_tot)
+	void process_data_field(string line)
 	{
 		// checks current line in file for data field and processes input accordingly
 		string field_name;
