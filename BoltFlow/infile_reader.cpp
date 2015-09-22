@@ -36,7 +36,7 @@ class InfileReader {
 		string line_part;
 		while(getline(data_file, line_tot))
 		{
-			getline(stringstream(line_tot),line_part,'#');
+			std::getline(stringstream(line_tot),line_part,'#');
 			process_data_field(line_part, line_tot);
 
 		}

@@ -8,8 +8,10 @@
 #include <vector>
 #include "../macros.cpp"
 
-#ifdef OS_WINDOWS
+#ifdef _WIN64
 	#include "x64\include\cgnslib.h"
+#elif _WIN32
+	#include "x86\include\cgnslib.h"
 #else
 	#include <cgnslib.h>
 #endif
