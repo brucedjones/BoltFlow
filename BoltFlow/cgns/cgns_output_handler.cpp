@@ -1,7 +1,7 @@
 #ifndef CGNS_OUTPUT_HANDLER
 #define CGNS_OUTPUT_HANDLER
 
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <iostream>

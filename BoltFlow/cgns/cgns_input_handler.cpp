@@ -1,6 +1,7 @@
 #ifndef CGNS_INPUT_HANDLER
 #define CGNS_INPUT_HANDLER
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
