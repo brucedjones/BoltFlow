@@ -46,9 +46,10 @@ class InfileReader {
 	{
 		// checks current line in file for data field and processes input accordingly
 		string field_name;
+		istringstream lineSS(line);
 		if (line.find("ProjName")!=string::npos)
 		{
-			stringstream(line) >> field_name >> project->name;
+			lineSS >> field_name >> project->name;
 			cout << field_name << " = " << project->name << endl;
 		}
 		else if (line.find("DomainFile")!=string::npos)
