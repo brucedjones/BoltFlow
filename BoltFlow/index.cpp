@@ -37,25 +37,33 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef _WIN64
-	//#pragma comment(lib, "cgns/x64/lib/cgns.lib")
-	#include "cgns\x64\include\cgnslib.h"
-	//#pragma comment(lib, "HDF5/x64/lib/hdf5.lib")
-	#include "HDF5/x64/include/hdf5.h"
-	//#pragma comment(lib, "HDF5/x64/lib/libszip.lib")
-	#include "HDF5/x64/include/szlib.h"
-	//#pragma comment(lib, "HDF5/x64/lib/libzlib.lib")
-	#include "HDF5/x64/include/zlib.h"
-#else
-	#pragma comment(lib, "cgns/x86/lib/cgns.lib")
-	#include "cgns\x86\include\cgnslib.h"
-	#pragma comment(lib, "HDF5/x86/lib/hdf5.lib")
-	#include "HDF5/x86/include/hdf5.h"
-	#pragma comment(lib, "HDF5/x86/lib/libszip.lib")
-	#include "HDF5/x86/include/szlib.h"
-	#pragma comment(lib, "HDF5/x86/lib/libzlib.lib")
-	#include "HDF5/x86/include/zlib.h"
+#ifdef OS_WINDOWS
+   #ifdef _WIN64
+		//#pragma comment(lib, "cgns/x64/lib/cgns.lib")
+		#include "cgns\x64\include\cgnslib.h"
+		//#pragma comment(lib, "HDF5/x64/lib/hdf5.lib")
+		#include "HDF5/x64/include/hdf5.h"
+		//#pragma comment(lib, "HDF5/x64/lib/libszip.lib")
+		#include "HDF5/x64/include/szlib.h"
+		//#pragma comment(lib, "HDF5/x64/lib/libzlib.lib")
+		#include "HDF5/x64/include/zlib.h"
+	#elif _WIN32
+		#pragma comment(lib, "cgns/x86/lib/cgns.lib")
+		#include "cgns\x86\include\cgnslib.h"
+		#pragma comment(lib, "HDF5/x86/lib/hdf5.lib")
+		#include "HDF5/x86/include/hdf5.h"
+		#pragma comment(lib, "HDF5/x86/lib/libszip.lib")
+		#include "HDF5/x86/include/szlib.h"
+		#pragma comment(lib, "HDF5/x86/lib/libzlib.lib")
+		#include "HDF5/x86/include/zlib.h"
+	#endif
+#else //UNIX
+	#include <cgnslib.h>
+	#include <hdf5.h>
+	#include <szlib.h>
+	#include <zlib.h>
 #endif
+
 
 #include <stdio.h>
 #include <time.h>
