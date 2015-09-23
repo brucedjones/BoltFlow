@@ -1,0 +1,36 @@
+#########################################
+#		   LBM-C Config File            #
+#########################################
+
+#===PROJECT VARIABLES===#
+ProjName unit_cell_BGK
+DomainFile unit_cell_BGK.dom
+OutputFile unit_cell_BGK.cgns
+
+#===SOLUTION CONSTANTS===#
+Tau 1.000000
+Lx 50
+Ly 50
+Lz 50
+DeltaX 1.000000
+DeltaT 1.000000
+
+#===SOLUTION CONFIGURATION===#
+ColType BGK
+Force 1
+MicroBC 0
+MacroBC 0
+Init 0
+Tolerance 1.000000e-05
+C_smag 0.000000e+00
+
+#===TIMING DATA===#
+MaxT 1000000
+FileOut 1000000
+ScreenMes 1000
+SteadyCheck 500
+
+#===OUTPUT VARIABLES ===#
+OutputVars 1 1 1 1 1
+ScreenNode 0 25 0
+Interactive 0
