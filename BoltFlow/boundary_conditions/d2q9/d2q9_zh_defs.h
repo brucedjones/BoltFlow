@@ -4,7 +4,7 @@
 #include "d2q9_zh_defs.cpp"
 
 // BOUNDARY CONDITION DEVICE FUNCTION PROTOTYPES
-__device__ __noinline__ void zh_pressure_x(Node *current_node, Lattice *lattice);
-__device__ __noinline__ void zh_pressure_X(Node *current_node, Lattice *lattice);
+void zh_pressure_x(Node *current_node, Lattice *lattice);
+void zh_pressure_X(Node *current_node, Lattice *lattice);
 
 #endif
