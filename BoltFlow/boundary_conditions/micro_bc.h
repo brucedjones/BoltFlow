@@ -4,7 +4,7 @@
 #ifdef D2Q9
 	#include "d2q9/d2q9_zh_defs.h"
 	//#include "d2q9/d2q9_sf_defs.h"
-__device__ __constant__ micro_condition micro_conditions[8] = { zh_pressure_x, zh_pressure_X, NULL, NULL};/*,
+	const micro_condition micro_conditions[8] = { zh_pressure_x, zh_pressure_X, NULL, NULL};/*,
 																	sf_x, sf_X, sf_y, sf_Y};*/
 #endif
 
