@@ -8,7 +8,7 @@
 
 #define NUM_RESIDS 3
 
-#define D3Q15
+//#define D3Q15
 //#define D2Q9
 
 #ifdef D2Q9
