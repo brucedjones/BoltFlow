@@ -264,9 +264,9 @@ void output_macros(int time)
 void iterate(int t)
 {
 	// ITERATE ONCE
-#pragma omp parallel for
 	for (int k = 0; k < domain_constants->length[2]; k++)
 	{
+		#pragma omp parallel for
 		for (int j = 0; j < domain_constants->length[1]; j++)
 		{
 			for (int i = 0; i < domain_constants->length[0]; i++)
