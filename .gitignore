@@ -8,6 +8,7 @@ ipch/
 LBM-C/Debug
 LBM-C/Release
 BoltFlow/bin
+BoltFlow/CMakeFiles
 
 # FILE TYPES
 *.dll
