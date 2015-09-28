@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 2.6)
+project (BoltFlow)
+add_executable(runbolt2d index.cpp)
+add_executable(runbolt3d index.cpp)
+
+find_package (CGNS)
+if (CGNS_FOUND)
+  include_directories(${CGNS_INCLUDE_DIRS})
+  target_link_libraries (runbolt2d ${CGNS_LIBRARIES})
+  target_link_libraries (runbolt3d ${CGNS_LIBRARIES})
+endif (BZIP2_FOUND)
