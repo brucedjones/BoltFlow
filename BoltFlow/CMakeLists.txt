@@ -30,7 +30,7 @@ target_link_libraries (runbolt2d ${LIBS})
 target_link_libraries (runbolt3d ${LIBS})
 
 IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-	SET(CMAKE_INSTALL_PREFIX "/opt/${PACKAGE_NAME}" CACHE PATH "/usr/local/bin/" FORCE)
+	SET(CMAKE_INSTALL_PREFIX "/usr/local/bin" CACHE PATH "BoltFlow install prefix" FORCE)
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 install(TARGETS runbolt2d runbolt3d RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
