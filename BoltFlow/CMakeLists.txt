@@ -3,6 +3,7 @@ project (BoltFlow)
 add_executable(runbolt2d index.cpp)
 add_executable(runbolt3d index.cpp)
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 find_package (CGNS)
 if (CGNS_FOUND)
   include_directories(${CGNS_INCLUDE_DIRS})
