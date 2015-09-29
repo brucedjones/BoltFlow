@@ -5,16 +5,16 @@ add_executable(runbolt3d index.cpp)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-find_package (CGNS)
-if (CGNS_FOUND)
-  include_directories(${CGNS_INCLUDE_DIRS})
-  target_link_libraries (runbolt2d ${CGNS_LIBRARIES})
-  target_link_libraries (runbolt3d ${CGNS_LIBRARIES})
-endif (CGNS_FOUND)
+find_package (CGNS REQUIRED)
+include_directories(${CGNS_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${CGNS_LIBRARIES})
 
-find_package (HDF5)
-if (HDF5_FOUND)
-  include_directories(${HDF5_INCLUDE_DIRS})
-  target_link_libraries (runbolt2d ${HDF5_LIBRARIES})
-  target_link_libraries (runbolt3d ${HDF5_LIBRARIES})
-endif (HDF5_FOUND)
+#find_package (HDF5)
+#include_directories(${HDF5_INCLUDE_DIRS})
+#set(LIBS ${LIBS} ${HDF5_LIBRARIES})
+
+SET_TARGET_PROPERTIES(runbolt2d PROPERTIES COMPILE_DEFINITIONS "D2Q9")
+SET_TARGET_PROPERTIES(runbolt3d PROPERTIES COMPILE_DEFINITIONS "D3Q15")
+
+target_link_libraries (runbolt2d ${LIBS})
+target_link_libraries (runbolt3d ${LIBS})
