@@ -1,6 +1,10 @@
 cmake_minimum_required (VERSION 2.6)
 project (BoltFlow)
 
+if(NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif(NOT CMAKE_BUILD_TYPE)
+
 add_executable(runbolt2d index.cpp)
 add_executable(runbolt3d index.cpp)
 
@@ -24,5 +28,9 @@ SET_TARGET_PROPERTIES(runbolt3d PROPERTIES COMPILE_DEFINITIONS "D3Q15")
 
 target_link_libraries (runbolt2d ${LIBS})
 target_link_libraries (runbolt3d ${LIBS})
+
+IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+	SET(CMAKE_INSTALL_PREFIX "/opt/${PACKAGE_NAME}" CACHE PATH "/usr/local/bin/" FORCE)
+ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 install(TARGETS runbolt2d runbolt3d RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
