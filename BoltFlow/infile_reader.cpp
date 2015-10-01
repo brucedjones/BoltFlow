@@ -228,6 +228,24 @@ class InfileReader {
 			lineSS >> field_name >> domain_constants->runtime_domain;
 			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
 		}
+
+		else if (line.find("RuntimeDomain")!=string::npos)
+		{
+			lineSS >> field_name >> domain_constants->runtime_domain;
+			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+		}
+
+		else if (line.find("RuntimeDomain")!=string::npos)
+		{
+			lineSS >> field_name >> domain_constants->runtime_domain;
+			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+		}
+
+		else if (line.find("RuntimeDomain")!=string::npos)
+		{
+			lineSS >> field_name >> domain_constants->runtime_domain;
+			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+		}
 	}
 
 	public:
