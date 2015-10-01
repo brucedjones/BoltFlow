@@ -40,6 +40,7 @@ typedef struct
 	double c_smag;
 	double M[Q][Q];
 	double M_inv[Q][Q];
+	bool runtime_domain;
 } DomainConstant;
 
 typedef struct
@@ -77,6 +78,17 @@ typedef struct
 	char domain_fname[STR_LENGTH];
 	char output_fname[STR_LENGTH];
 } ProjectStrings;
+
+typedef struct
+{
+	double gravity_magnitude;
+	int gravity_direction;
+	int micro_bc[6];
+	int macro_bc[6];
+	int macro_bc_val[6];
+	int geom_type;
+	char geom_fname[STR_LENGTH];
+} RuntimeDomain
 
 // Solver function pointers for boundary conditions and collisions
 typedef void (*micro_condition) (Node *, Lattice *);

@@ -222,6 +222,12 @@ class InfileReader {
 			lineSS >> field_name >> output_controller->interactive;
 			cout << field_name << " = " << output_controller->interactive << endl;
 		}
+
+		else if (line.find("RuntimeDomain")!=string::npos)
+		{
+			lineSS >> field_name >> domain_constants->runtime_domain;
+			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+		}
 	}
 
 	public:
