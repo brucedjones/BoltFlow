@@ -16,6 +16,7 @@ class InfileReader {
 	Timing *timer;
 	OutputController *output_controller;
 	ProjectStrings *project;
+	RuntimeDomain *runtime_domain;
 
 	void initialise()
 	{
@@ -223,28 +224,61 @@ class InfileReader {
 			cout << field_name << " = " << output_controller->interactive << endl;
 		}
 
-		else if (line.find("RuntimeDomain")!=string::npos)
+		else if (line.find("GravityDirection")!=string::npos)
 		{
-			lineSS >> field_name >> domain_constants->runtime_domain;
-			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+			lineSS >> field_name >> runtime_domain->gravity_direction;
+			cout << field_name << " = " << runtime_domain->gravity_direction; << endl;
 		}
 
-		else if (line.find("RuntimeDomain")!=string::npos)
+		else if (line.find("MicroBCSpec")!=string::npos)
 		{
-			lineSS >> field_name >> domain_constants->runtime_domain;
-			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+			string screen_label = "MicroBCSpec_";
+#if DIM < 3
+			lineSS >> field_name >> runtime_domain->micro_bc[0] >> runtime_domain->micro_bc[1] >> runtime_domain->micro_bc[2] >> runtime_domain->micro_bc[3];
+#else
+			lineSS >> field_name >> runtime_domain->micro_bc[0] >> runtime_domain->micro_bc[1] >> runtime_domain->micro_bc[2] >> runtime_domain->micro_bc[3] >> runtime_domain->micro_bc[4] >> runtime_domain->micro_bc[5];
+#endif		
+			for(int i =0; i<2*DIM; i++)
+			{
+				//lineSS >> domain_constants->tau_mrt[i];
+				cout << screen_label << i << " = " << runtime_domain->micro_bc[i] << endl;
+			}
 		}
 
-		else if (line.find("RuntimeDomain")!=string::npos)
+		else if (line.find("MacroBCSpec")!=string::npos)
 		{
-			lineSS >> field_name >> domain_constants->runtime_domain;
-			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+			string screen_label = "MacroBCSpec_";
+#if DIM < 3
+			lineSS >> field_name >> runtime_domain->macro_bc[0] >> runtime_domain->macro_bc[1] >> runtime_domain->macro_bc[2] >> runtime_domain->macro_bc[3];
+#else
+			lineSS >> field_name >> runtime_domain->macro_bc[0] >> runtime_domain->macro_bc[1] >> runtime_domain->macro_bc[2] >> runtime_domain->macro_bc[3] >> runtime_domain->macro_bc[4] >> runtime_domain->macro_bc[5];
+#endif		
+			for(int i =0; i<2*DIM; i++)
+			{
+				//lineSS >> domain_constants->tau_mrt[i];
+				cout << screen_label << i << " = " << runtime_domain->macro_bc[i] << endl;
+			}
 		}
 
-		else if (line.find("RuntimeDomain")!=string::npos)
+		else if (line.find("MacroBCVal")!=string::npos)
 		{
-			lineSS >> field_name >> domain_constants->runtime_domain;
-			cout << field_name << " = " << domain_constants->runtime_domain; << endl;
+			string screen_label = "MacroBCVal_";
+#if DIM < 3
+			lineSS >> field_name >> runtime_domain->macro_bc_val[0] >> runtime_domain->macro_bc_val[1] >> runtime_domain->macro_bc_val[2] >> runtime_domain->macro_bc_val[3];
+#else
+			lineSS >> field_name >> runtime_domain->macro_bc_val[0] >> runtime_domain->macro_bc_val[1] >> runtime_domain->macro_bc_val[2] >> runtime_domain->macro_bc_val[3] >> runtime_domain->macro_bc_val[4] >> runtime_domain->macro_bc_val[5];
+#endif		
+			for(int i =0; i<2*DIM; i++)
+			{
+				//lineSS >> domain_constants->tau_mrt[i];
+				cout << screen_label << i << " = " << runtime_domain->macro_bc_val[i] << endl;
+			}
+		}
+
+		else if (line.find("GeomType")!=string::npos)
+		{
+			lineSS >> field_name >> runtime_domain->geom_type;
+			cout << field_name << " = " << runtime_domain->geom_type; << endl;
 		}
 	}
 
@@ -252,13 +286,14 @@ class InfileReader {
 		InfileReader(char*, ProjectStrings*, DomainConstant *,Timing *,OutputController *);
 };
 
-InfileReader::InfileReader(char *input_filename, ProjectStrings *project_in, DomainConstant *domain_constants_in, Timing *timer_in, OutputController *output_controller_in) {
+InfileReader::InfileReader(char *input_filename, ProjectStrings *project_in, DomainConstant *domain_constants_in, Timing *timer_in, OutputController *output_controller_in, RuntimeDomain *runtime_domain_in) {
 
 			fname = input_filename;
 			project = project_in;
 			domain_constants = domain_constants_in;
 			timer = timer_in;
 			output_controller = output_controller_in;
+			runtime_domain = runtime_domain_in;
 
 			cout << endl << "Reading configuration data: " << endl << endl;
 

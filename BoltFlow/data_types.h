@@ -83,9 +83,9 @@ typedef struct
 {
 	double gravity_magnitude;
 	int gravity_direction;
-	int micro_bc[6];
-	int macro_bc[6];
-	int macro_bc_val[6];
+	int micro_bc[2*DIM];
+	int macro_bc[2*DIM];
+	int macro_bc_val[2*DIM];
 	int geom_type;
 	char geom_fname[STR_LENGTH];
 } RuntimeDomain

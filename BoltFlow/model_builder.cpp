@@ -20,6 +20,7 @@ class ModelBuilder
 	Lattice *lattice;
 	Domain *domain;
 	DomainConstant *domain_constants;
+	RuntimeDomain *runtime_domain;
 	double **f, *rho, **u, *geometry, **force;
 	int *micro_bc;
 	int *macro_bc;
@@ -51,7 +52,7 @@ class ModelBuilder
 	void constant_loader()
 	{
 		// LOAD CONSTANTS FROM FILE
-		InfileReader infile_reader(fname_config, project_t, domain_constants, time_t, output_controller);
+		InfileReader infile_reader(fname_config, project_t, domain_constants, time_t, output_controller, runtime_domain);
 		
 		// LOAD LATTICE CONSTANTS
 		LOAD_E(domain_constants->e);
@@ -205,11 +206,12 @@ public:
 
 };
 
-ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConstant *domain_constants, Domain *domain, OutputController *output_controller, Timing *time, ProjectStrings *project) 
+ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConstant *domain_constants, Domain *domain, OutputController *output_controller, Timing *time, ProjectStrings *project, RuntimeDomain *runtime_domain) 
 {
-	this->lattice= lattice;
-	this->domain_constants= domain_constants;
-	this->domain= domain;
+	this->lattice = lattice;
+	this->domain_constants = domain_constants;
+	this->domain = domain;
+	this->runtime_domain = runtime_domain;
 	this->output_controller= output_controller;
 	time_t = time;
 	project_t = project;

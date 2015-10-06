@@ -76,6 +76,7 @@
 Lattice *lattice;
 Domain *domain;
 DomainConstant *domain_constants;
+RuntimeDomain *runtime_domain;
 OutputController *output_controller;
 Timing *times;
 ProjectStrings *project;
@@ -182,7 +183,7 @@ void setup(char *data_file)
 	times = (Timing *)malloc(sizeof(Timing));
 	project = (ProjectStrings *)malloc(sizeof(ProjectStrings));
 
-	ModelBuilder tmpmb(data_file, lattice, domain_constants, domain, output_controller, times, project);
+	ModelBuilder tmpmb(data_file, lattice, domain_constants, domain, output_controller, times, project, runtime_domain);
 	model_builder = tmpmb;
 
 	int z_len = 1;
