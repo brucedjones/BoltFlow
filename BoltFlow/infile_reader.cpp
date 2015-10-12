@@ -227,7 +227,7 @@ class InfileReader {
 		else if (line.find("GravityDirection")!=string::npos)
 		{
 			lineSS >> field_name >> runtime_domain->gravity_direction;
-			cout << field_name << " = " << runtime_domain->gravity_direction; << endl;
+			cout << field_name << " = " << runtime_domain->gravity_direction << endl;
 		}
 
 		else if (line.find("MicroBCSpec")!=string::npos)
@@ -278,12 +278,12 @@ class InfileReader {
 		else if (line.find("GeomType")!=string::npos)
 		{
 			lineSS >> field_name >> runtime_domain->geom_type;
-			cout << field_name << " = " << runtime_domain->geom_type; << endl;
+			cout << field_name << " = " << runtime_domain->geom_type << endl;
 		}
 	}
 
 	public:
-		InfileReader(char*, ProjectStrings*, DomainConstant *,Timing *,OutputController *);
+		InfileReader(char*, ProjectStrings*, DomainConstant *,Timing *,OutputController *, RuntimeDomain *);
 };
 
 InfileReader::InfileReader(char *input_filename, ProjectStrings *project_in, DomainConstant *domain_constants_in, Timing *timer_in, OutputController *output_controller_in, RuntimeDomain *runtime_domain_in) {

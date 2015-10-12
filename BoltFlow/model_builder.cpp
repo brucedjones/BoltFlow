@@ -200,7 +200,7 @@ class ModelBuilder
 }
 
 public:
-	ModelBuilder (char *, Lattice*, DomainConstant*, Domain*, OutputController*, Timing*, ProjectStrings*);
+	ModelBuilder (char *, Lattice*, DomainConstant*, Domain*, OutputController*, Timing*, ProjectStrings*, RuntimeDomain*);
 
 	ModelBuilder ();
 

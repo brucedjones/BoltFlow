@@ -88,7 +88,7 @@ typedef struct
 	int macro_bc_val[2*DIM];
 	int geom_type;
 	char geom_fname[STR_LENGTH];
-} RuntimeDomain
+} RuntimeDomain;
 
 // Solver function pointers for boundary conditions and collisions
 typedef void (*micro_condition) (Node *, Lattice *);
