@@ -84,11 +84,18 @@ typedef struct
 	double gravity_magnitude;
 	int gravity_direction;
 	int micro_bc[2*DIM];
-	int macro_bc[2*DIM];
-	int macro_bc_val[2*DIM];
+	double macro_bc[2*DIM*(DIM+1)];
+	int domain_walls[2*DIM];
 	int geom_type;
 	char geom_fname[STR_LENGTH];
+	Particles *particles
 } RuntimeDomain;
+
+typedef struct
+{
+	double **COG
+	double *radius
+} Particles;
 
 // Solver function pointers for boundary conditions and collisions
 typedef void (*micro_condition) (Node *, Lattice *);

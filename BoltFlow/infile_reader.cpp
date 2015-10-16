@@ -224,6 +224,18 @@ class InfileReader {
 			cout << field_name << " = " << output_controller->interactive << endl;
 		}
 
+		else if (line.find("RuntimeDomain")!=string::npos)
+		{
+			lineSS >> field_name >> output_controller->runtime_domain;
+			cout << field_name << " = " << output_controller->runtime_domain << endl;
+		}
+
+		else if (line.find("GravityMagnitude")!=string::npos)
+		{
+			lineSS >> field_name >> runtime_domain->gravity_magnitude;
+			cout << field_name << " = " << runtime_domain->gravity_magnitude << endl;
+		}
+
 		else if (line.find("GravityDirection")!=string::npos)
 		{
 			lineSS >> field_name >> runtime_domain->gravity_direction;
@@ -248,30 +260,27 @@ class InfileReader {
 		else if (line.find("MacroBCSpec")!=string::npos)
 		{
 			string screen_label = "MacroBCSpec_";
-#if DIM < 3
-			lineSS >> field_name >> runtime_domain->macro_bc[0] >> runtime_domain->macro_bc[1] >> runtime_domain->macro_bc[2] >> runtime_domain->macro_bc[3];
-#else
-			lineSS >> field_name >> runtime_domain->macro_bc[0] >> runtime_domain->macro_bc[1] >> runtime_domain->macro_bc[2] >> runtime_domain->macro_bc[3] >> runtime_domain->macro_bc[4] >> runtime_domain->macro_bc[5];
-#endif		
-			for(int i =0; i<2*DIM; i++)
+			lineSS >> field_name
+
+			for(int i =0; i<2*DIM*(DIM+1); i++)
 			{
-				//lineSS >> domain_constants->tau_mrt[i];
+				lineSS >> runtime_domain->macro_bc[i];
 				cout << screen_label << i << " = " << runtime_domain->macro_bc[i] << endl;
 			}
 		}
 
-		else if (line.find("MacroBCVal")!=string::npos)
+		else if (line.find("DomainWalls")!=string::npos)
 		{
-			string screen_label = "MacroBCVal_";
+			string screen_label = "DomainWalls_";
 #if DIM < 3
-			lineSS >> field_name >> runtime_domain->macro_bc_val[0] >> runtime_domain->macro_bc_val[1] >> runtime_domain->macro_bc_val[2] >> runtime_domain->macro_bc_val[3];
+			lineSS >> field_name >> runtime_domain->domain_walls[0] >> runtime_domain->domain_walls[1] >> runtime_domain->domain_walls[2] >> runtime_domain->domain_walls[3];
 #else
-			lineSS >> field_name >> runtime_domain->macro_bc_val[0] >> runtime_domain->macro_bc_val[1] >> runtime_domain->macro_bc_val[2] >> runtime_domain->macro_bc_val[3] >> runtime_domain->macro_bc_val[4] >> runtime_domain->macro_bc_val[5];
+			lineSS >> field_name >> runtime_domain->domain_walls[0] >> runtime_domain->domain_walls[1] >> runtime_domain->domain_walls[2] >> runtime_domain->domain_walls[3] >> runtime_domain->domain_walls[4] >> runtime_domain->domain_walls[5];
 #endif		
 			for(int i =0; i<2*DIM; i++)
 			{
 				//lineSS >> domain_constants->tau_mrt[i];
-				cout << screen_label << i << " = " << runtime_domain->macro_bc_val[i] << endl;
+				cout << screen_label << i << " = " << runtime_domain->domain_walls[i] << endl;
 			}
 		}
 
@@ -279,6 +288,12 @@ class InfileReader {
 		{
 			lineSS >> field_name >> runtime_domain->geom_type;
 			cout << field_name << " = " << runtime_domain->geom_type << endl;
+		}
+
+		else if (line.find("GeomFile")!=string::npos)
+		{
+			lineSS >> field_name >> runtime_domain->geom_fname;
+			cout << field_name << " = " << runtime_domain->geom_fname << endl;
 		}
 	}
 

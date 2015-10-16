@@ -136,7 +136,12 @@ class ModelBuilder
 		domain->rho = rho;
 	}
 
-	void variable_loader()
+	void runtime_domain_loader()
+	{
+		
+	}
+
+	void preprocessed_domain_loader()
 	{
 		// LOAD GEOMETRY
 		CGNSInputHandler input_handler(project_t->domain_fname, domain_constants->length);
@@ -222,7 +227,12 @@ ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConsta
 	variable_size_allocator();
 	variable_assembler();
 	cout << "variable assembler complete" << endl;
-	variable_loader();
+	if(this->domain_constants->runtime_domain)
+	{
+		runtime_domain_loader();
+	} else {
+		preprocessed_domain_loader();
+	}
 	cout << "variable loader complete" << endl;
 }
 
