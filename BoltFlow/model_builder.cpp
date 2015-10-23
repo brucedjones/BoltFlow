@@ -167,7 +167,7 @@ class ModelBuilder
 		// Gravity
 		if(domain_constants->forcing)
 		{
-			for(idx=0; idx<domain_size; idx++)
+			for(int idx=0; idx<domain_size; idx++)
 			{
 				for(int d=0; d<DIM; d++)
 				{
@@ -186,25 +186,10 @@ class ModelBuilder
 				{	
 					int caseApplied = -1;
 
-					switch(j)
-					{
-						case 0:
-							if(runtime_domain->micro_bc[2]>0) caseApplied = 2;
-							break;
-						case domain_constants->length[1]-1:
-							if(runtime_domain->micro_bc[3]>0) caseApplied = 3;
-						break;
-					}
-
-					switch(i)
-					{
-						case 0:
-							if(runtime_domain->micro_bc[0]>0) caseApplied = 0;
-							break;
-						case domain_constants->length[0]-1:
-							if(runtime_domain->micro_bc[1]>0) caseApplied = 1;
-						break;
-					}
+					if(j==0 && runtime_domain->micro_bc[2]>0) caseApplied = 2;
+					if(j==domain_constants->length[1]-1 && runtime_domain->micro_bc[3]>0) caseApplied = 3;
+					if(i==0 && runtime_domain->micro_bc[0]>0) caseApplied = 0;
+					if(i==domain_constants->length[0]-1 && runtime_domain->micro_bc[1]>0) caseApplied = 1;
 
 					int idx = i+j*domain_constants->length[0];
 
@@ -225,36 +210,13 @@ class ModelBuilder
 					{
 						int caseApplied = -1;
 
-						switch(k)
-						{
-							case 0:
-								if(runtime_domain->micro_bc[4]>0) caseApplied = 4;
-								break;
-							case domain_constants->length[2]-1:
-								if(runtime_domain->micro_bc[5]>0) caseApplied = 5;
-							break;
-						}
-
-						switch(j)
-						{
-							case 0:
-								if(runtime_domain->micro_bc[2]>0) caseApplied = 2;
-								break;
-							case domain_constants->length[1]-1:
-								if(runtime_domain->micro_bc[3]>0) caseApplied = 3;
-							break;
-						}
-	
-						switch(i)
-						{
-							case 0:
-								if(runtime_domain->micro_bc[0]>0) caseApplied = 0;
-								break;
-							case domain_constants->length[0]-1:
-								if(runtime_domain->micro_bc[1]>0) caseApplied = 1;
-							break;
-						}
-	
+						if(k==0 && runtime_domain->micro_bc[4]>0) caseApplied = 4;
+						if(k==domain_constants->length[2]-1 && runtime_domain->micro_bc[5]>0) caseApplied = 5;
+						if(j==0 && runtime_domain->micro_bc[2]>0) caseApplied = 2;
+						if(j==domain_constants->length[1]-1 && runtime_domain->micro_bc[3]>0) caseApplied = 3;
+						if(i==0 && runtime_domain->micro_bc[0]>0) caseApplied = 0;
+						if(i==domain_constants->length[0]-1 && runtime_domain->micro_bc[1]>0) caseApplied = 1;
+						
 						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
 
 						if(caseApplied>0)
@@ -279,31 +241,16 @@ class ModelBuilder
 				{	
 					int caseApplied = -1;
 
-					switch(j)
-					{
-						case 0:
-							if(runtime_domain->macro_bc[2]>0) caseApplied = 2;
-							break;
-						case domain_constants->length[1]-1:
-							if(runtime_domain->macro_bc[3]>0) caseApplied = 3;
-						break;
-					}
-
-					switch(i)
-					{
-						case 0:
-							if(runtime_domain->macro_bc[0]>0) caseApplied = 0;
-							break;
-						case domain_constants->length[0]-1:
-							if(runtime_domain->macro_bc[1]>0) caseApplied = 1;
-						break;
-					}
+					if(j==0 && runtime_domain->macro_bc_spec[2]>0) caseApplied = 2;
+					if(j==domain_constants->length[1]-1 && runtime_domain->macro_bc_spec[3]>0) caseApplied = 3;
+					if(i==0 && runtime_domain->macro_bc_spec[0]>0) caseApplied = 0;
+					if(i==domain_constants->length[0]-1 && runtime_domain->macro_bc_spec[1]>0) caseApplied = 1;
 
 					int idx = i+j*domain_constants->length[0];
 
 					if(caseApplied>0)
 					{
-						domain->macro_bc[idx] = runtime_domain->macro_bc[caseApplied];
+						domain->macro_bc[idx] = runtime_domain->macro_bc_spec[caseApplied];
 						domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
 						domain->u[0][idx] = runtime_domain->macro_bc_val[1+caseApplied*(DIM+1)];
 						domain->u[1][idx] = runtime_domain->macro_bc_val[2+caseApplied*(DIM+1)];
@@ -321,48 +268,25 @@ class ModelBuilder
 					{
 						int caseApplied = -1;
 
-						switch(k)
-						{
-							case 0:
-								if(runtime_domain->macro_bc[4]>0) caseApplied = 4;
-								break;
-							case domain_constants->length[2]-1:
-								if(runtime_domain->macro_bc[5]>0) caseApplied = 5;
-							break;
-						}
-
-						switch(j)
-						{
-							case 0:
-								if(runtime_domain->macro_bc[2]>0) caseApplied = 2;
-								break;
-							case domain_constants->length[1]-1:
-								if(runtime_domain->macro_bc[3]>0) caseApplied = 3;
-							break;
-						}
-	
-						switch(i)
-						{
-							case 0:
-								if(runtime_domain->macro_bc[0]>0) caseApplied = 0;
-								break;
-							case domain_constants->length[0]-1:
-								if(runtime_domain->macro_bc[1]>0) caseApplied = 1;
-							break;
-						}
-	
+						if(k==0 && runtime_domain->macro_bc_spec[4]>0) caseApplied = 4;
+						if(k==domain_constants->length[2]-1 && runtime_domain->macro_bc_spec[5]>0) caseApplied = 5;
+						if(j==0 && runtime_domain->macro_bc_spec[2]>0) caseApplied = 2;
+						if(j==domain_constants->length[1]-1 && runtime_domain->macro_bc_spec[3]>0) caseApplied = 3;
+						if(i==0 && runtime_domain->macro_bc_spec[0]>0) caseApplied = 0;
+						if(i==domain_constants->length[0]-1 && runtime_domain->macro_bc_spec[1]>0) caseApplied = 1;
+						
 						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
 
 						if(caseApplied>0)
-					{
-						domain->macro_bc[idx] = runtime_domain->macro_bc[caseApplied];
-						domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
-						domain->u[0][idx] = runtime_domain->macro_bc_val[1+caseApplied*(DIM+1)];
-						domain->u[1][idx] = runtime_domain->macro_bc_val[2+caseApplied*(DIM+1)];
-						domain->u[2][idx] = runtime_domain->macro_bc_val[3+caseApplied*(DIM+1)];
-					} else {
-						domain->macro_bc[idx] = 0;
-					}				
+						{
+							domain->macro_bc[idx] = runtime_domain->macro_bc_spec[caseApplied];
+							domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
+							domain->u[0][idx] = runtime_domain->macro_bc_val[1+caseApplied*(DIM+1)];
+							domain->u[1][idx] = runtime_domain->macro_bc_val[2+caseApplied*(DIM+1)];
+							domain->u[2][idx] = runtime_domain->macro_bc_val[3+caseApplied*(DIM+1)];
+						} else {
+							domain->macro_bc[idx] = 0;
+						}				
 					}
 				}
 			}
@@ -370,79 +294,44 @@ class ModelBuilder
 		}
 
 		// Domain Walls
-		if(domain_constants->micro_bc)
-		{
 #if DIM < 3
+		for(int j=0; j<domain_constants->length[1]; j++)
+		{
+			for(int i=0; i<domain_constants->length[0]; i++)
+			{	
+				double geometry = 0.0;
+				
+				if(j==0 && runtime_domain->domain_walls[2]>0) geometry=1.0;
+				if(j==domain_constants->length[1]-1 && runtime_domain->domain_walls[3]>0) geometry=1.0;
+				if(i==0 && runtime_domain->domain_walls[0]>0) geometry=1.0;
+				if(i==domain_constants->length[0]-1 && runtime_domain->domain_walls[1]>0) geometry=1.0;
+				
+				int idx = i+j*domain_constants->length[0];
+				domain->geometry[idx] = geometry;
+			}
+		}
+#else
+		for(int k=0; k<domain_constants->length[2]; k++)
+		{
 			for(int j=0; j<domain_constants->length[1]; j++)
 			{
 				for(int i=0; i<domain_constants->length[0]; i++)
-				{	
+				{
 					double geometry = 0.0;
-					switch(j)
-					{
-						case 0:
-							if(runtime_domain->domain_walls[2]>0) geometry=1.0;
-							break;
-						case domain_constants->length[1]-1:
-							if(runtime_domain->domain_walls[3]>0) geometry=1.0;
-						break;
-					}
 
-					switch(i)
-					{
-						case 0:
-							if(runtime_domain->domain_walls[0]>0) geometry=1.0;
-							break;
-						case domain_constants->length[0]-1:
-							if(runtime_domain->domain_walls[1]>0) geometry=1.0;
-						break;
-					}
+					if(k==0 && runtime_domain->domain_walls[4]>0) geometry=1.0;
+					if(k==domain_constants->length[2]-1 && runtime_domain->domain_walls[5]>0) geometry=1.0;
+					if(j==0 && runtime_domain->domain_walls[2]>0) geometry=1.0;
+					if(j==domain_constants->length[1]-1 && runtime_domain->domain_walls[3]>0) geometry=1.0;
+					if(i==0 && runtime_domain->domain_walls[0]>0) geometry=1.0;
+					if(i==domain_constants->length[0]-1 && runtime_domain->domain_walls[1]>0) geometry=1.0;
 
 					int idx = i+j*domain_constants->length[0];
 					domain->geometry[idx] = geometry;
 				}
 			}
-#else
-			for(int k=0; k<domain_constants->length[2]; k++)
-			{
-				for(int j=0; j<domain_constants->length[1]; j++)
-				{
-					for(int i=0; i<domain_constants->length[0]; i++)
-					{
-						double geometry = 0.0;
-
-						switch(k)
-						{
-							case 0:
-								if(runtime_domain->domain_walls[4]>0) geometry=1.0;
-								break;
-							case domain_constants->length[2]-1:
-								if(runtime_domain->domain_walls[5]>0) geometry=1.0;
-							break;
-						}
-
-						switch(j)
-						{
-							case 0:
-								if(runtime_domain->domain_walls[2]>0) geometry=1.0;
-								break;
-							case domain_constants->length[1]-1:
-								if(runtime_domain->domain_walls[3]>0) geometry=1.0;
-							break;
-						}
-	
-						switch(i)
-						{
-							case 0:
-								if(runtime_domain->domain_walls[0]>0) geometry=1.0;
-								break;
-							case domain_constants->length[0]-1:
-								if(runtime_domain->domain_walls[1]>0) geometry=1.0;
-							break;
-						}
-
-						int idx = i+j*domain_constants->length[0];
-						domain->geometry[idx] = geometry;
+		}
+#endif
 	}
 
 	void binary_domain_loader()
