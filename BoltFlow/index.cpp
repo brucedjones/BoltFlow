@@ -265,10 +265,20 @@ void output_macros(int time)
 // CONFIGURES THE KERNEL CONFIGURATION AND LAUNCHES KERNEL
 void iterate(int t)
 {
+#if DIM < 3
 	// ITERATE ONCE
+	for (int j = 0; j < domain_constants->length[1]; j++)
+	{
+		for (int i = 0; i < domain_constants->length[0]; i++)
+		{
+			iterate_kernel(lattice, domain, domain_constants, store_macros, t, i, j, 0);
+		}
+	}
+#else
+	// ITERATE ONCE
+	#pragma omp parallel for
 	for (int k = 0; k < domain_constants->length[2]; k++)
 	{
-		#pragma omp parallel for
 		for (int j = 0; j < domain_constants->length[1]; j++)
 		{
 			for (int i = 0; i < domain_constants->length[0]; i++)
@@ -277,6 +287,7 @@ void iterate(int t)
 			}
 		}
 	}
+#endif
 }
 
 double current_RMS(Domain *domain)

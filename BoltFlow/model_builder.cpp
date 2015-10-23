@@ -164,15 +164,8 @@ class ModelBuilder
 
 	void runtime_domain_loader()
 	{
-		int i, j, k, idx;
-
 		// Gravity
-		bool forcing = false;
-		for(i = 0; i<DIM; i++)
-		{
-			if(runtime_domain->gravity[i]!=0) forcing = true;
-		}
-		if(forcing)
+		if(domain_constants->forcing)
 		{
 			for(idx=0; idx<domain_size; idx++)
 			{
@@ -183,381 +176,273 @@ class ModelBuilder
 			}
 		}
 
-		// MICRO  BOUNDARY CONDITION SPECIFICATION
-		// X-
-		if(runtime_domain->micro_bc[0]>0) {
-			i = 0;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
+		// MICRO BOUNDARY CONDITION SPECIFICATION
+		if(domain_constants->micro_bc)
+		{
+#if DIM < 3
+			for(int j=0; j<domain_constants->length[1]; j++)
 			{
-				idx = i+j*domain_constants->length[0];
-				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-			}	
+				for(int i=0; i<domain_constants->length[0]; i++)
+				{	
+					int caseApplied = -1;
+
+					switch(j)
+					{
+						case 0:
+							if(runtime_domain->micro_bc[2]>0) caseApplied = 2;
+							break;
+						case domain_constants->length[1]-1:
+							if(runtime_domain->micro_bc[3]>0) caseApplied = 3;
+						break;
+					}
+
+					switch(i)
+					{
+						case 0:
+							if(runtime_domain->micro_bc[0]>0) caseApplied = 0;
+							break;
+						case domain_constants->length[0]-1:
+							if(runtime_domain->micro_bc[1]>0) caseApplied = 1;
+						break;
+					}
+
+					int idx = i+j*domain_constants->length[0];
+
+					if(caseApplied>0)
+					{
+						domain->micro_bc[idx] = runtime_domain->micro_bc[caseApplied];
+					} else {
+						domain->micro_bc[idx] = 0;
+					}
+				}
+			}
 #else
-			for(k = 0; k<domain_constants->length[2]; k++)
+			for(int k=0; k<domain_constants->length[2]; k++)
 			{
-				for(j = 0; j<domain_constants->length[1]; j++)
+				for(int j=0; j<domain_constants->length[1]; j++)
 				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+					for(int i=0; i<domain_constants->length[0]; i++)
+					{
+						int caseApplied = -1;
+
+						switch(k)
+						{
+							case 0:
+								if(runtime_domain->micro_bc[4]>0) caseApplied = 4;
+								break;
+							case domain_constants->length[2]-1:
+								if(runtime_domain->micro_bc[5]>0) caseApplied = 5;
+							break;
+						}
+
+						switch(j)
+						{
+							case 0:
+								if(runtime_domain->micro_bc[2]>0) caseApplied = 2;
+								break;
+							case domain_constants->length[1]-1:
+								if(runtime_domain->micro_bc[3]>0) caseApplied = 3;
+							break;
+						}
+	
+						switch(i)
+						{
+							case 0:
+								if(runtime_domain->micro_bc[0]>0) caseApplied = 0;
+								break;
+							case domain_constants->length[0]-1:
+								if(runtime_domain->micro_bc[1]>0) caseApplied = 1;
+							break;
+						}
+	
+						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+
+						if(caseApplied>0)
+						{
+							domain->micro_bc[idx] = runtime_domain->micro_bc[caseApplied];
+						} else {
+							domain->micro_bc[idx] = 0;
+						}				
+					}
 				}
 			}
 #endif
 		}
 
-		// X+
-		if(runtime_domain->micro_bc[1]>0) {
-			i = domain_constants->length[0]-1;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
+		// MACRO BOUNDARY CONDITION SPECIFICATION
+		if(domain_constants->macro_bc)
+		{
+#if DIM < 3
+			for(int j=0; j<domain_constants->length[1]; j++)
 			{
-				idx = i+j*domain_constants->length[0];
-				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-			}	
+				for(int i=0; i<domain_constants->length[0]; i++)
+				{	
+					int caseApplied = -1;
+
+					switch(j)
+					{
+						case 0:
+							if(runtime_domain->macro_bc[2]>0) caseApplied = 2;
+							break;
+						case domain_constants->length[1]-1:
+							if(runtime_domain->macro_bc[3]>0) caseApplied = 3;
+						break;
+					}
+
+					switch(i)
+					{
+						case 0:
+							if(runtime_domain->macro_bc[0]>0) caseApplied = 0;
+							break;
+						case domain_constants->length[0]-1:
+							if(runtime_domain->macro_bc[1]>0) caseApplied = 1;
+						break;
+					}
+
+					int idx = i+j*domain_constants->length[0];
+
+					if(caseApplied>0)
+					{
+						domain->macro_bc[idx] = runtime_domain->macro_bc[caseApplied];
+						domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
+						domain->u[0][idx] = runtime_domain->macro_bc_val[1+caseApplied*(DIM+1)];
+						domain->u[1][idx] = runtime_domain->macro_bc_val[2+caseApplied*(DIM+1)];
+					} else {
+						domain->macro_bc[idx] = 0;
+					}
+				}
+			}
 #else
-			for(k = 0; k<domain_constants->length[2]; k++)
+			for(int k=0; k<domain_constants->length[2]; k++)
 			{
-				for(j = 0; j<domain_constants->length[1]; j++)
+				for(int j=0; j<domain_constants->length[1]; j++)
 				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+					for(int i=0; i<domain_constants->length[0]; i++)
+					{
+						int caseApplied = -1;
+
+						switch(k)
+						{
+							case 0:
+								if(runtime_domain->macro_bc[4]>0) caseApplied = 4;
+								break;
+							case domain_constants->length[2]-1:
+								if(runtime_domain->macro_bc[5]>0) caseApplied = 5;
+							break;
+						}
+
+						switch(j)
+						{
+							case 0:
+								if(runtime_domain->macro_bc[2]>0) caseApplied = 2;
+								break;
+							case domain_constants->length[1]-1:
+								if(runtime_domain->macro_bc[3]>0) caseApplied = 3;
+							break;
+						}
+	
+						switch(i)
+						{
+							case 0:
+								if(runtime_domain->macro_bc[0]>0) caseApplied = 0;
+								break;
+							case domain_constants->length[0]-1:
+								if(runtime_domain->macro_bc[1]>0) caseApplied = 1;
+							break;
+						}
+	
+						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+
+						if(caseApplied>0)
+					{
+						domain->macro_bc[idx] = runtime_domain->macro_bc[caseApplied];
+						domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
+						domain->u[0][idx] = runtime_domain->macro_bc_val[1+caseApplied*(DIM+1)];
+						domain->u[1][idx] = runtime_domain->macro_bc_val[2+caseApplied*(DIM+1)];
+						domain->u[2][idx] = runtime_domain->macro_bc_val[3+caseApplied*(DIM+1)];
+					} else {
+						domain->macro_bc[idx] = 0;
+					}				
+					}
 				}
 			}
 #endif
 		}
-
-		// Y-
-		if(runtime_domain->micro_bc[2]>0) {
-			j = 0;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-				}
-			}
-#endif
-		}
-
-		// Y+
-		if(runtime_domain->micro_bc[3]>0) {
-			j = domain_constants->length[1]-1;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-				}
-			}
-#endif
-		}
-
-#if DIM>2
-		// Z-
-		if(runtime_domain->micro_bc[4]>0) {
-			k = 0;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-				}
-			}
-		}
-
-		// Z+
-		if(runtime_domain->micro_bc[5]>0) {
-			k = domain_constants->length[2]-1;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
-				}
-			}
-		}
-#endif
-
-		// MACRO  BOUNDARY CONDITION SPECIFICATION
-		// X-
-		if(runtime_domain->macro_bc_spec[0]>0) {
-			i = 0;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-				domain->rho[idx] = runtime_domain->macro_bc_val[0+0*3];
-				domain->u[0][idx] = runtime_domain->macro_bc_val[1+0*3];
-				domain->u[1][idx] = runtime_domain->macro_bc_val[2+0*3];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(j = 0; j<domain_constants->length[1]; j++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+0*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+0*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+0*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+0*4];
-				}
-			}
-#endif
-		}
-
-		// X+
-		if(runtime_domain->macro_bc_spec[1]>0) {
-			i = domain_constants->length[0]-1;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-				domain->rho[idx] = runtime_domain->macro_bc_val[0+1*3];
-				domain->u[0][idx] = runtime_domain->macro_bc_val[1+1*3];
-				domain->u[1][idx] = runtime_domain->macro_bc_val[2+1*3];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(j = 0; j<domain_constants->length[1]; j++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+1*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+1*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+1*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+1*4];
-				}
-			}
-#endif
-		}
-
-		// Y-
-		if(runtime_domain->macro_bc_spec[2]>0) {
-			j = 0;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-				domain->rho[idx] = runtime_domain->macro_bc_val[0+2*3];
-				domain->u[0][idx] = runtime_domain->macro_bc_val[1+2*3];
-				domain->u[1][idx] = runtime_domain->macro_bc_val[2+2*3];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+2*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+2*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+2*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+2*4];
-				}
-			}
-#endif
-		}
-
-		// Y+
-		if(runtime_domain->macro_bc_spec[3]>0) {
-			j = domain_constants->length[1]-1;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-				domain->rho[idx] = runtime_domain->macro_bc_val[0+3*3];
-				domain->u[0][idx] = runtime_domain->macro_bc_val[1+3*3];
-				domain->u[1][idx] = runtime_domain->macro_bc_val[2+3*3];
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+3*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+3*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+3*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+3*4];
-				}
-			}
-#endif
-		}
-
-#if DIM>2
-		// Z-
-		if(runtime_domain->macro_bc_spec[4]>0) {
-			k = 0;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+4*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+4*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+4*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+4*4];
-				}
-			}
-		}
-
-		// Z+
-		if(runtime_domain->macro_bc_spec[5]>0) {
-			k = domain_constants->length[2]-1;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
-					domain->rho[idx] = runtime_domain->macro_bc_val[0+5*4];
-					domain->u[0][idx] = runtime_domain->macro_bc_val[1+5*4];
-					domain->u[1][idx] = runtime_domain->macro_bc_val[2+5*4];
-					domain->u[2][idx] = runtime_domain->macro_bc_val[3+5*4];
-				}
-			}
-		}
-#endif
 
 		// Domain Walls
-		// X-
-		if(runtime_domain->domain_walls[0]) {
-			i = 0;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
+		if(domain_constants->micro_bc)
+		{
+#if DIM < 3
+			for(int j=0; j<domain_constants->length[1]; j++)
 			{
-				idx = i+j*domain_constants->length[0];
-				domain->geometry[idx] = 1.0;
-			}	
+				for(int i=0; i<domain_constants->length[0]; i++)
+				{	
+					double geometry = 0.0;
+					switch(j)
+					{
+						case 0:
+							if(runtime_domain->domain_walls[2]>0) geometry=1.0;
+							break;
+						case domain_constants->length[1]-1:
+							if(runtime_domain->domain_walls[3]>0) geometry=1.0;
+						break;
+					}
+
+					switch(i)
+					{
+						case 0:
+							if(runtime_domain->domain_walls[0]>0) geometry=1.0;
+							break;
+						case domain_constants->length[0]-1:
+							if(runtime_domain->domain_walls[1]>0) geometry=1.0;
+						break;
+					}
+
+					int idx = i+j*domain_constants->length[0];
+					domain->geometry[idx] = geometry;
+				}
+			}
 #else
-			for(k = 0; k<domain_constants->length[2]; k++)
+			for(int k=0; k<domain_constants->length[2]; k++)
 			{
-				for(j = 0; j<domain_constants->length[1]; j++)
+				for(int j=0; j<domain_constants->length[1]; j++)
 				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-#endif
-		}
+					for(int i=0; i<domain_constants->length[0]; i++)
+					{
+						double geometry = 0.0;
 
-		// X+
-		if(runtime_domain->domain_walls[1]) {
-			i = domain_constants->length[0]-1;	
-#if DIM <3
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->geometry[idx] = 1.0;
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(j = 0; j<domain_constants->length[1]; j++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-#endif
-		}
+						switch(k)
+						{
+							case 0:
+								if(runtime_domain->domain_walls[4]>0) geometry=1.0;
+								break;
+							case domain_constants->length[2]-1:
+								if(runtime_domain->domain_walls[5]>0) geometry=1.0;
+							break;
+						}
 
-		// Y-
-		if(runtime_domain->domain_walls[2]) {
-			j = 0;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->geometry[idx] = 1.0;
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-#endif
-		}
+						switch(j)
+						{
+							case 0:
+								if(runtime_domain->domain_walls[2]>0) geometry=1.0;
+								break;
+							case domain_constants->length[1]-1:
+								if(runtime_domain->domain_walls[3]>0) geometry=1.0;
+							break;
+						}
+	
+						switch(i)
+						{
+							case 0:
+								if(runtime_domain->domain_walls[0]>0) geometry=1.0;
+								break;
+							case domain_constants->length[0]-1:
+								if(runtime_domain->domain_walls[1]>0) geometry=1.0;
+							break;
+						}
 
-		// Y+
-		if(runtime_domain->domain_walls[3]) {
-			j = domain_constants->length[1]-1;	
-#if DIM <3
-			for(i = 0; i<domain_constants->length[0]; i++)
-			{
-				idx = i+j*domain_constants->length[0];
-				domain->geometry[idx] = 1.0;
-			}	
-#else
-			for(k = 0; k<domain_constants->length[2]; k++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-#endif
-		}
-
-#if DIM>2
-		// Z-
-		if(runtime_domain->domain_walls[4]) {
-			k = 0;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-		}
-
-		// Z+
-		if(runtime_domain->domain_walls[5]) {
-			k = domain_constants->length[2]-1;	
-			for(j = 0; j<domain_constants->length[1]; j++)
-			{
-				for(i = 0; i<domain_constants->length[0]; i++)
-				{
-					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
-					domain->geometry[idx] = 1.0;
-				}
-			}
-		}
-#endif
-
+						int idx = i+j*domain_constants->length[0];
+						domain->geometry[idx] = geometry;
 	}
 
 	void binary_domain_loader()
