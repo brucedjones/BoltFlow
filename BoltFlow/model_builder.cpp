@@ -193,7 +193,7 @@ class ModelBuilder
 
 					int idx = i+j*domain_constants->length[0];
 
-					if(caseApplied>0)
+					if(caseApplied>=0)
 					{
 						domain->micro_bc[idx] = runtime_domain->micro_bc[caseApplied];
 					} else {
@@ -219,7 +219,7 @@ class ModelBuilder
 						
 						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
 
-						if(caseApplied>0)
+						if(caseApplied>=0)
 						{
 							domain->micro_bc[idx] = runtime_domain->micro_bc[caseApplied];
 						} else {
@@ -248,7 +248,7 @@ class ModelBuilder
 
 					int idx = i+j*domain_constants->length[0];
 
-					if(caseApplied>0)
+					if(caseApplied>=0)
 					{
 						domain->macro_bc[idx] = runtime_domain->macro_bc_spec[caseApplied];
 						domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
@@ -277,7 +277,7 @@ class ModelBuilder
 						
 						int idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
 
-						if(caseApplied>0)
+						if(caseApplied>=0)
 						{
 							domain->macro_bc[idx] = runtime_domain->macro_bc_spec[caseApplied];
 							domain->rho[idx] = runtime_domain->macro_bc_val[0+caseApplied*(DIM+1)];
@@ -415,6 +415,13 @@ ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConsta
 	variable_size_allocator();
 	variable_assembler();
 	cout << "variable assembler complete" << endl;
+
+	if(domain_constants->init_type == 0)
+	{
+		load_static_IC();
+		cout << "initialised to static domain" << endl;
+	}
+
 	if(this->domain_constants->runtime_domain)
 	{
 		runtime_domain_loader();
@@ -427,12 +434,6 @@ ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConsta
 		cout << "binary domain initialisation complete" << endl;
 	}
 	cout << "variable loader complete" << endl;
-
-	if(domain_constants->init_type == 0)
-	{
-		load_static_IC();
-		cout << "initialised to static domain" << endl;
-	}
 }
 
 ModelBuilder::ModelBuilder (){}
