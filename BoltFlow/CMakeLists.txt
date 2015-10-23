@@ -18,6 +18,14 @@ find_package (HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${HDF5_LIBRARIES})
 
+find_package (ZLIB REQUIRED)
+include_directories(${ZLIB_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${ZLIB_LIBRARIES})
+
+find_package (SZIP REQUIRED)
+include_directories(${SZIP_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${SZIP_LIBRARIES})
+
 find_package(OpenMP)
 if (OPENMP_FOUND)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")

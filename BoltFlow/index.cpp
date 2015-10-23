@@ -179,6 +179,7 @@ void setup(char *data_file)
 	lattice = (Lattice*)malloc(sizeof(Lattice));
 	domain = (Domain*)malloc(sizeof(Domain));
 	domain_constants = (DomainConstant*)malloc(sizeof(DomainConstant));
+	runtime_domain = (RuntimeDomain*)malloc(sizeof(RuntimeDomain));
 	output_controller = (OutputController*)malloc(sizeof(OutputController));
 	times = (Timing *)malloc(sizeof(Timing));
 	project = (ProjectStrings *)malloc(sizeof(ProjectStrings));

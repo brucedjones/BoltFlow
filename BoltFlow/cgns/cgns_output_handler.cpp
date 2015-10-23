@@ -334,6 +334,7 @@ CGNSOutputHandler::CGNSOutputHandler (char *output_filename, int length_x, int l
 
 	create_file();
 	write_base();
+
 	write_grid();
 }
 

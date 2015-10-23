@@ -64,18 +64,44 @@ class ModelBuilder
 		{
 			domain_constants->residual[i] = 1;
 		}
-	}
 
-// Allocates memory for variables which have variable size due to problem geometry
-	void variable_size_allocator()
-	{
 		domain_size = 1;
 		for(int d = 0; d<DIM; d++)
 		{
 			domain_size = domain_size*domain_constants->length[d];
 		}
-		int domain_data_size;
-		domain_data_size = domain_size*sizeof(double);
+
+		// Check for runtime domain and flip switches accordingly
+		if(domain_constants->runtime_domain)
+		{
+			bool forcing = false;
+			for(int i = 0; i<DIM; i++)
+			{
+				if(runtime_domain->gravity[i]!=0) forcing = true;
+			}
+			domain_constants->forcing = forcing;
+
+			bool micro_bc = false;
+			for(int i = 0; i<2*DIM; i++)
+			{
+				if(runtime_domain->micro_bc[i]>0) micro_bc = true;
+			}
+			domain_constants->micro_bc = micro_bc;
+
+			bool macro_bc = false;
+			for(int i = 0; i<2*DIM; i++)
+			{
+				if(runtime_domain->macro_bc_spec[i]>0) macro_bc = true;
+			}
+			domain_constants->macro_bc = macro_bc;
+
+		}
+	}
+
+// Allocates memory for variables which have variable size due to problem geometry
+	void variable_size_allocator()
+	{
+		int domain_data_size = domain_size*sizeof(double);
 
 		// Allocate required arrays
 		// PDFS
@@ -138,10 +164,403 @@ class ModelBuilder
 
 	void runtime_domain_loader()
 	{
-		
+		int i, j, k, idx;
+
+		// Gravity
+		bool forcing = false;
+		for(i = 0; i<DIM; i++)
+		{
+			if(runtime_domain->gravity[i]!=0) forcing = true;
+		}
+		if(forcing)
+		{
+			for(idx=0; idx<domain_size; idx++)
+			{
+				for(int d=0; d<DIM; d++)
+				{
+					domain->force[d][idx] = runtime_domain->gravity[d];
+				}
+			}
+		}
+
+		// MICRO  BOUNDARY CONDITION SPECIFICATION
+		// X-
+		if(runtime_domain->micro_bc[0]>0) {
+			i = 0;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+#endif
+		}
+
+		// X+
+		if(runtime_domain->micro_bc[1]>0) {
+			i = domain_constants->length[0]-1;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+#endif
+		}
+
+		// Y-
+		if(runtime_domain->micro_bc[2]>0) {
+			j = 0;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+#endif
+		}
+
+		// Y+
+		if(runtime_domain->micro_bc[3]>0) {
+			j = domain_constants->length[1]-1;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+#endif
+		}
+
+#if DIM>2
+		// Z-
+		if(runtime_domain->micro_bc[4]>0) {
+			k = 0;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+		}
+
+		// Z+
+		if(runtime_domain->micro_bc[5]>0) {
+			k = domain_constants->length[2]-1;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->micro_bc[idx] = runtime_domain->micro_bc[0];
+				}
+			}
+		}
+#endif
+
+		// MACRO  BOUNDARY CONDITION SPECIFICATION
+		// X-
+		if(runtime_domain->macro_bc_spec[0]>0) {
+			i = 0;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+				domain->rho[idx] = runtime_domain->macro_bc_val[0+0*3];
+				domain->u[0][idx] = runtime_domain->macro_bc_val[1+0*3];
+				domain->u[1][idx] = runtime_domain->macro_bc_val[2+0*3];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+0*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+0*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+0*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+0*4];
+				}
+			}
+#endif
+		}
+
+		// X+
+		if(runtime_domain->macro_bc_spec[1]>0) {
+			i = domain_constants->length[0]-1;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+				domain->rho[idx] = runtime_domain->macro_bc_val[0+1*3];
+				domain->u[0][idx] = runtime_domain->macro_bc_val[1+1*3];
+				domain->u[1][idx] = runtime_domain->macro_bc_val[2+1*3];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+1*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+1*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+1*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+1*4];
+				}
+			}
+#endif
+		}
+
+		// Y-
+		if(runtime_domain->macro_bc_spec[2]>0) {
+			j = 0;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+				domain->rho[idx] = runtime_domain->macro_bc_val[0+2*3];
+				domain->u[0][idx] = runtime_domain->macro_bc_val[1+2*3];
+				domain->u[1][idx] = runtime_domain->macro_bc_val[2+2*3];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+2*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+2*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+2*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+2*4];
+				}
+			}
+#endif
+		}
+
+		// Y+
+		if(runtime_domain->macro_bc_spec[3]>0) {
+			j = domain_constants->length[1]-1;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+				domain->rho[idx] = runtime_domain->macro_bc_val[0+3*3];
+				domain->u[0][idx] = runtime_domain->macro_bc_val[1+3*3];
+				domain->u[1][idx] = runtime_domain->macro_bc_val[2+3*3];
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+3*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+3*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+3*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+3*4];
+				}
+			}
+#endif
+		}
+
+#if DIM>2
+		// Z-
+		if(runtime_domain->macro_bc_spec[4]>0) {
+			k = 0;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+4*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+4*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+4*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+4*4];
+				}
+			}
+		}
+
+		// Z+
+		if(runtime_domain->macro_bc_spec[5]>0) {
+			k = domain_constants->length[2]-1;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->macro_bc[idx] = runtime_domain->macro_bc_spec[0];
+					domain->rho[idx] = runtime_domain->macro_bc_val[0+5*4];
+					domain->u[0][idx] = runtime_domain->macro_bc_val[1+5*4];
+					domain->u[1][idx] = runtime_domain->macro_bc_val[2+5*4];
+					domain->u[2][idx] = runtime_domain->macro_bc_val[3+5*4];
+				}
+			}
+		}
+#endif
+
+		// Domain Walls
+		// X-
+		if(runtime_domain->domain_walls[0]) {
+			i = 0;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->geometry[idx] = 1.0;
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+#endif
+		}
+
+		// X+
+		if(runtime_domain->domain_walls[1]) {
+			i = domain_constants->length[0]-1;	
+#if DIM <3
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->geometry[idx] = 1.0;
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(j = 0; j<domain_constants->length[1]; j++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+#endif
+		}
+
+		// Y-
+		if(runtime_domain->domain_walls[2]) {
+			j = 0;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->geometry[idx] = 1.0;
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+#endif
+		}
+
+		// Y+
+		if(runtime_domain->domain_walls[3]) {
+			j = domain_constants->length[1]-1;	
+#if DIM <3
+			for(i = 0; i<domain_constants->length[0]; i++)
+			{
+				idx = i+j*domain_constants->length[0];
+				domain->geometry[idx] = 1.0;
+			}	
+#else
+			for(k = 0; k<domain_constants->length[2]; k++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+#endif
+		}
+
+#if DIM>2
+		// Z-
+		if(runtime_domain->domain_walls[4]) {
+			k = 0;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+		}
+
+		// Z+
+		if(runtime_domain->domain_walls[5]) {
+			k = domain_constants->length[2]-1;	
+			for(j = 0; j<domain_constants->length[1]; j++)
+			{
+				for(i = 0; i<domain_constants->length[0]; i++)
+				{
+					idx = i+j*domain_constants->length[0]+ k*domain_constants->length[0]*domain_constants->length[1];
+					domain->geometry[idx] = 1.0;
+				}
+			}
+		}
+#endif
+
 	}
 
-	void preprocessed_domain_loader()
+	void binary_domain_loader()
 	{
 		// LOAD GEOMETRY
 		CGNSInputHandler input_handler(project_t->domain_fname, domain_constants->length);
@@ -184,25 +603,20 @@ class ModelBuilder
 
 			input_handler.read_field(domain->rho, "Rho");
 		}
-
-		if(domain_constants->init_type == 0)
-		{
-			load_static_IC();
-		}
 	}
 
 	void load_static_IC()
-{
-	double omega[Q];
-	LOAD_OMEGA(omega);
-	for(int i=0;i<Q;i++)
 	{
-		for(int index=0;index<(domain_size);index++)
+		double omega[Q];
+		LOAD_OMEGA(omega);
+		for(int i=0;i<Q;i++)
 		{
-			lattice->f[i][index] = 1.0*omega[i];
+			for(int index=0;index<(domain_size);index++)
+			{
+				lattice->f[i][index] = 1.0*omega[i];
+			}
 		}
 	}
-}
 
 public:
 	ModelBuilder (char *, Lattice*, DomainConstant*, Domain*, OutputController*, Timing*, ProjectStrings*, RuntimeDomain*);
@@ -230,10 +644,21 @@ ModelBuilder::ModelBuilder (char *input_filename, Lattice *lattice, DomainConsta
 	if(this->domain_constants->runtime_domain)
 	{
 		runtime_domain_loader();
-	} else {
-		preprocessed_domain_loader();
+		cout << "runtime domain initialisation complete" << endl;
+	}
+
+	if(this->domain_constants->binary_domain)
+	{
+		binary_domain_loader();
+		cout << "binary domain initialisation complete" << endl;
 	}
 	cout << "variable loader complete" << endl;
+
+	if(domain_constants->init_type == 0)
+	{
+		load_static_IC();
+		cout << "initialised to static domain" << endl;
+	}
 }
 
 ModelBuilder::ModelBuilder (){}

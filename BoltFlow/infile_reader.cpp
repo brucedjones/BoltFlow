@@ -226,62 +226,78 @@ class InfileReader {
 
 		else if (line.find("RuntimeDomain")!=string::npos)
 		{
-			lineSS >> field_name >> output_controller->runtime_domain;
-			cout << field_name << " = " << output_controller->runtime_domain << endl;
+			lineSS >> field_name >> domain_constants->runtime_domain;
+			cout << field_name << " = " << domain_constants->runtime_domain << endl;
 		}
 
-		else if (line.find("GravityMagnitude")!=string::npos)
+		else if (line.find("Gravity")!=string::npos)
 		{
-			lineSS >> field_name >> runtime_domain->gravity_magnitude;
-			cout << field_name << " = " << runtime_domain->gravity_magnitude << endl;
+			lineSS >> field_name;
+			cout << field_name << " = ";
+
+			for(int i =0; i<DIM; i++)
+			{
+				lineSS >> runtime_domain->gravity[i];
+				cout << runtime_domain->gravity[i] << " ";
+			}
+
+			cout << endl;
 		}
 
-		else if (line.find("GravityDirection")!=string::npos)
+		else if (line.find("MicroBound")!=string::npos)
 		{
-			lineSS >> field_name >> runtime_domain->gravity_direction;
-			cout << field_name << " = " << runtime_domain->gravity_direction << endl;
-		}
+			lineSS >> field_name;
+			cout << field_name << " = ";
 
-		else if (line.find("MicroBCSpec")!=string::npos)
-		{
-			string screen_label = "MicroBCSpec_";
-#if DIM < 3
-			lineSS >> field_name >> runtime_domain->micro_bc[0] >> runtime_domain->micro_bc[1] >> runtime_domain->micro_bc[2] >> runtime_domain->micro_bc[3];
-#else
-			lineSS >> field_name >> runtime_domain->micro_bc[0] >> runtime_domain->micro_bc[1] >> runtime_domain->micro_bc[2] >> runtime_domain->micro_bc[3] >> runtime_domain->micro_bc[4] >> runtime_domain->micro_bc[5];
-#endif		
 			for(int i =0; i<2*DIM; i++)
 			{
-				//lineSS >> domain_constants->tau_mrt[i];
-				cout << screen_label << i << " = " << runtime_domain->micro_bc[i] << endl;
+				lineSS >> runtime_domain->micro_bc[i];
+				cout << runtime_domain->micro_bc[i] << " ";
 			}
+
+			cout << endl;
 		}
 
-		else if (line.find("MacroBCSpec")!=string::npos)
+		else if (line.find("MacroBoundSpec")!=string::npos)
 		{
-			string screen_label = "MacroBCSpec_";
-			lineSS >> field_name
+			lineSS >> field_name;
+			cout << field_name << " = ";
+
+			for(int i =0; i<2*DIM; i++)
+			{
+				lineSS >> runtime_domain->macro_bc_spec[i];
+				cout << runtime_domain->macro_bc_spec[i] << " ";
+			}
+
+			cout << endl;
+		}
+
+		else if (line.find("MacroBoundVal")!=string::npos)
+		{
+			lineSS >> field_name;
+			cout << field_name << " = ";
 
 			for(int i =0; i<2*DIM*(DIM+1); i++)
 			{
-				lineSS >> runtime_domain->macro_bc[i];
-				cout << screen_label << i << " = " << runtime_domain->macro_bc[i] << endl;
+				lineSS >> runtime_domain->macro_bc_val[i];
+				cout << runtime_domain->macro_bc_val[i] << " ";
 			}
+
+			cout << endl;
 		}
 
 		else if (line.find("DomainWalls")!=string::npos)
 		{
-			string screen_label = "DomainWalls_";
-#if DIM < 3
-			lineSS >> field_name >> runtime_domain->domain_walls[0] >> runtime_domain->domain_walls[1] >> runtime_domain->domain_walls[2] >> runtime_domain->domain_walls[3];
-#else
-			lineSS >> field_name >> runtime_domain->domain_walls[0] >> runtime_domain->domain_walls[1] >> runtime_domain->domain_walls[2] >> runtime_domain->domain_walls[3] >> runtime_domain->domain_walls[4] >> runtime_domain->domain_walls[5];
-#endif		
+			lineSS >> field_name;
+			cout << field_name << " = ";
+
 			for(int i =0; i<2*DIM; i++)
 			{
-				//lineSS >> domain_constants->tau_mrt[i];
-				cout << screen_label << i << " = " << runtime_domain->domain_walls[i] << endl;
+				lineSS >> runtime_domain->domain_walls[i];
+				cout << runtime_domain->domain_walls[i] << " ";
 			}
+
+			cout << endl;
 		}
 
 		else if (line.find("GeomType")!=string::npos)
@@ -294,6 +310,12 @@ class InfileReader {
 		{
 			lineSS >> field_name >> runtime_domain->geom_fname;
 			cout << field_name << " = " << runtime_domain->geom_fname << endl;
+		}
+
+		else if (line.find("BinaryDomain")!=string::npos)
+		{
+			lineSS >> field_name >> domain_constants->binary_domain;
+			cout << field_name << " = " << domain_constants->binary_domain << endl;
 		}
 	}
 

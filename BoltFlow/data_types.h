@@ -41,6 +41,7 @@ typedef struct
 	double M[Q][Q];
 	double M_inv[Q][Q];
 	bool runtime_domain;
+	bool binary_domain;
 } DomainConstant;
 
 typedef struct
@@ -81,21 +82,21 @@ typedef struct
 
 typedef struct
 {
-	double gravity_magnitude;
-	int gravity_direction;
-	int micro_bc[2*DIM];
-	double macro_bc[2*DIM*(DIM+1)];
-	int domain_walls[2*DIM];
-	int geom_type;
-	char geom_fname[STR_LENGTH];
-	Particles *particles
-} RuntimeDomain;
+	double **COG;
+	double *radius;
+} Particles;
 
 typedef struct
 {
-	double **COG
-	double *radius
-} Particles;
+	double gravity[DIM];
+	int micro_bc[2*DIM];
+	double macro_bc_spec[2*DIM];
+	double macro_bc_val[2*DIM*(DIM+1)];
+	bool domain_walls[2*DIM];
+	int geom_type;
+	char geom_fname[STR_LENGTH];
+	Particles *particles;
+} RuntimeDomain;
 
 // Solver function pointers for boundary conditions and collisions
 typedef void (*micro_condition) (Node *, Lattice *);

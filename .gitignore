@@ -2,6 +2,7 @@
 *.dat
 
 # FOLDERS
+bin/
 Debug/
 Release/
 ipch/
@@ -18,3 +19,11 @@ BoltFlow/CMakeFiles
 *.sdf
 *.suo
 *.user
+
+# Build files
+runbolt2d
+runbolt3d
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+Makefile

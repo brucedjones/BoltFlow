@@ -9,11 +9,11 @@
 #include "../data_types.h"
 
 const macro_condition macro_conditions[15] = { presc_ux,		 presc_uy,			presc_uz,
-																presc_uy_ux,	 presc_uz_ux,
-																presc_uz_uy,	 presc_ux_uy_uz,
-																presc_rho,		 presc_rho_ux,		presc_rho_uy,		presc_rho_uz, 
-																presc_rho_ux_uy, presc_rho_ux_uz,	presc_rho_uy_uz,
-																presc_rho_ux_uy_uz};
+												presc_uy_ux,	 presc_uz_ux,
+												presc_uz_uy,	 presc_ux_uy_uz,
+												presc_rho,		 presc_rho_ux,		presc_rho_uy,		presc_rho_uz, 
+												presc_rho_ux_uy, presc_rho_ux_uz,	presc_rho_uy_uz,
+												presc_rho_ux_uy_uz};
 
 void presc_ux(Node *current_node, Domain *domain)
 {
